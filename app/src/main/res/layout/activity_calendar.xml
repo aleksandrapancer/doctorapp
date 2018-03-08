@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.bodzio.doctorapp.MainActivity">
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp"
+        android:headerBackground="@android:color/holo_blue_light"
+        android:startYear="2017"
+        tools:datePickerMode="calendar"
+        tools:theme="@style/AlertDialog.AppCompat.Light" />
+
+</LinearLayout>
