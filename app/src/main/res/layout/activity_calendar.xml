@@ -81,13 +81,9 @@
 
     </LinearLayout>
 
-    <DatePicker
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_margin="15dp"
-        android:focusable="true"
-        android:headerBackground="@color/colorAccent"
-        android:startYear="2017"
-        tools:theme="@style/AppTheme" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
