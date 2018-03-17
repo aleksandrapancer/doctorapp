@@ -58,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Check your bank activities"
+                    android:text="Przeglądaj kalendarz"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>
@@ -75,9 +75,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:focusable="true">
+                android:onClick="openAppointmentCreator"
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="64dp"
