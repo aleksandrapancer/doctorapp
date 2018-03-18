@@ -2,52 +2,102 @@ package com.example.bodzio.doctorapp;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
+import android.util.Log;
+
+import java.util.Currency;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public DatabaseHelper(Context context) {
-        super(context, dbname,null,1);
-    }
-
     static final String dbname = "doctorDB";
-    SQLiteDatabase db = openOrCreateDatabase(dbname, null,null);
-
+    //appointments table
     static final String appointmentTab = "appointment";
     static final String appointmentID = "id";
-    static final String patientName = "name";
-    static final String patientSurname = "surname";
+    static final String name = "name";
+    static final String surname = "surname";
     static final String date = "date";
     static final String hour = "hour";
     static final String minute = "minute";
     static final String setAlert = "alert";
 
+    //patients table
+    static final String patientTab = "patient";
+    static final String patientID = "id";
+    static final String patientName = "name";
+    static final String patientSurname = "surname";
+    static final String patientPesel = "pesel";
+    static final String patientBirthData = "birthData";
+    static final String patientAddress = "address";
+    static final String patientEmail = "email";
+    static final String patientPhone = "phone";
+
+
+    public DatabaseHelper(Context context) {
+        super(context, dbname,null,1);
+        SQLiteDatabase db = this.getWritableDatabase();
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db){
-        //appointments table
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+appointmentTab+" ("+appointmentID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                patientName+" TEXT," + patientSurname+" TEXT,"+
-                date+" INTEGER,"+hour+" INTEGER,"+minute+" INTEGER,"+
-                setAlert+" TEXT)");
+        db.execSQL("CREATE TABLE "+appointmentTab+" ("+appointmentID+" INTEGER PRIMARY KEY , "+
+                name+" TEXT,"+surname+" TEXT,"+
+                date+ " INTEGER,"+hour+ "INTEGER,"+minute+" INTEGER,"+setAlert+" INTEGER)");
+
+        db.execSQL("CREATE TABLE "+patientTab+" ("+patientID+" INTEGER PRIMARY KEY , "+
+                patientName+ " TEXT,"+patientSurname+ "TEXT,"+patientPesel+"INTEGER,"+patientBirthData+"TEXT"+
+                patientAddress+"TEXT"+patientEmail+" TEXT," +patientPhone+"INTEGER)");
+        //onCreate(db);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        db.execSQL("DROP TABLE IF EXISTS "+ appointmentTab);
+        db.execSQL("DROP TABLE IF EXISTS "+ patientTab);
+        onCreate(db);
     }
 
-    public long insertAppointmentData(String name,String surname,long d,int h,int min, boolean alert) {
+    public void insertPatientTab(String name, String surmane, String pesel, String birthData, String address, String email, String phone){
+        Log.d("Logcat", "insert patient table - trial");
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(patientName,name);
-        contentValues.put(patientSurname,surname);
-        contentValues.put(date,d);
-        contentValues.put(hour,h);
-        contentValues.put(minute,min);
-        contentValues.put(setAlert,alert);
+        contentValues.put(patientName, name);
+        contentValues.put(patientSurname, surmane);
+        contentValues.put(patientPesel, pesel);
+        contentValues.put(patientBirthData, birthData);
+        contentValues.put(patientAddress, address);
+        contentValues.put(patientEmail, email);
+        contentValues.put(patientPhone, phone);
+        db.insert(patientTab, null, contentValues);
+        db.close();
+        Log.d("Logcat", "insert patient table - success");
+    }
 
-        return db.insert(appointmentTab,null ,contentValues);
+    public void insertAppoinmentTab(String n, String s, long d, int h, int min, boolean alert){
+        Log.d("Logcat", "insert patient table - trial");
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(name, n);
+        contentValues.put(surname, s);
+        contentValues.put(date, d);
+        contentValues.put(hour,h);
+        contentValues.put(minute, min);
+        contentValues.put(setAlert, alert);
+        db.insert(appointmentTab, null, contentValues);
+        db.close();
+        Log.d("Logcat", "insert patient table - success");
+    }
+
+
+
+    //to jest do poprawy
+    public Cursor getDatas(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + patientTab, null);
+        return res;
     }
 }
