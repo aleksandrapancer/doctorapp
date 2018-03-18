@@ -11,6 +11,8 @@ import java.util.Calendar;
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
+    static long pickedDate;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final Calendar c = Calendar.getInstance();
@@ -24,7 +26,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //format for saving in database
         Calendar calendar = Calendar.getInstance();
-        long pickedDate = calendar.getTimeInMillis();
+        pickedDate = calendar.getTimeInMillis();
 
         //format for displaying in activity
         TextView tv = getActivity().findViewById(R.id.tv);
@@ -36,4 +38,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         String stringOfDate = day + "/" + month + "/" + year;
         tv.setText(tv.getText() + "\n\nFormatted date: " + stringOfDate);
     }
+
+    public long getDate(){   return pickedDate; }
 }

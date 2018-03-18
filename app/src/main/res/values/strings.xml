@@ -3,5 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
-    <string name="emptyfields">Empty form fields! Please fill all data in!</string>
+    <string name="emptyfields">Puste pola w fomularzu!</string>
+    <string name="notimeselected">Nie wybrano daty lub czasu wizyty!</string>
+    <string name="addedtodatabase">Zapisano wizytę!</string>
+    <string name="failed">Błąd zapisu!</string>
 </resources>

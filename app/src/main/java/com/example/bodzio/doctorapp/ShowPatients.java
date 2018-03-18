@@ -11,20 +11,21 @@ import android.widget.Button;
 public class ShowPatients extends AppCompatActivity {
 
     Button showButton;
-    DatabaseHelper db;
+    private DatabaseManager dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_patients);
 
-        db = new DatabaseHelper(this);
+        dbHelper = new DatabaseManager(this);
+        dbHelper.open();
 
         showButton = findViewById(R.id.sortButton);
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = db.getDatas();
+                Cursor res = dbHelper.getData();
                 if(res.getCount()==0){
                     showMessage("Nic nie ma w bazie");
                     return;
