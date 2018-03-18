@@ -13,7 +13,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        //Use the current date as the default date in the date picker
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -21,9 +20,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
+
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        //Do something with the date chosen by the user
-        TextView tv = (TextView) getActivity().findViewById(R.id.tv);
+        //format for saving in database
+        Calendar calendar = Calendar.getInstance();
+        long pickedDate = calendar.getTimeInMillis();
+
+        //format for displaying in activity
+        TextView tv = getActivity().findViewById(R.id.tv);
         tv.setText("Date changed...");
         tv.setText(tv.getText() + "\nYear: " + year);
         tv.setText(tv.getText() + "\nMonth: " + month);

@@ -1,10 +1,12 @@
 package com.example.bodzio.doctorapp;
 
-
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class AppointmentCreator extends AppCompatActivity {
@@ -24,6 +26,23 @@ public class AppointmentCreator extends AppCompatActivity {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(),"Time Picker");
     }
+
+    public void saveData(View v){
+        EditText nameIn = findViewById(R.id.nameText);
+        EditText surnameIn = findViewById(R.id.surnameText);
+        String name = nameIn.getText().toString();
+        String surname = surnameIn.getText().toString();
+        CheckBox alert =  findViewById(R.id.alertCheckbox);
+        boolean alertSetted = alert.isChecked();
+
+
+        if (name == null || surname == null) {
+            Toast.makeText(this, getResources().getString(R.string.emptyfields), Toast.LENGTH_LONG).show();
+        }else if (name.equals("") || surname.equals("")) {
+            Toast.makeText(this, getResources().getString(R.string.emptyfields), Toast.LENGTH_LONG).show();
+        }
+    }
+
 }
 
 
