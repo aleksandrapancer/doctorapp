@@ -29,6 +29,7 @@
         <activity android:name=".AppointmentCreator" />
         <activity android:name=".AddPatient" />
         <activity android:name=".ShowPatients" />
+        <activity android:name=".EditPatient" />
     </application>
 
 </manifest>

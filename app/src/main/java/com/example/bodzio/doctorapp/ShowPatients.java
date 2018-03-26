@@ -1,17 +1,24 @@
 package com.example.bodzio.doctorapp;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class ShowPatients extends AppCompatActivity {
 
     Button showButton;
     private DatabaseManager dbHelper;
+    EditText surname, pesel;
+    static int idOfPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,37 +28,83 @@ public class ShowPatients extends AppCompatActivity {
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
 
-        showButton = findViewById(R.id.sortButton);
+        showList();
+
+        showButton = findViewById(R.id.filtrButton);
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res = dbHelper.getData();
-                if(res.getCount()==0){
-                    showMessage("Nic nie ma w bazie");
-                    return;
-                }
-                StringBuffer buffer = new StringBuffer();
-                while (res.moveToNext()){
-                    buffer.append("Id: "+res.getString(0)+"\n");
-                    buffer.append("Name: "+res.getString(1)+"\n");
-                    buffer.append("Surname: "+res.getString(2)+"\n");
-                    buffer.append("Pesel: "+res.getString(3)+"\n");
-                    buffer.append("Birth data: "+res.getString(4)+"\n");
-                    buffer.append("Address: "+res.getString(5)+"\n");
-                    buffer.append("Email: "+res.getString(6)+"\n");
-                    buffer.append("Phone: "+res.getString(7)+"\n");
+                showFilteredList();
+            }
+        });
 
-                }
-                showMessage(buffer.toString());
+    }
+
+    public void showList(){
+
+        ListView listView = findViewById(R.id.listView);
+
+        final Cursor cursor = dbHelper.getData();
+        final ArrayList<Model> customerList = new ArrayList<>();
+        while (cursor.moveToNext()){
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String surname = cursor.getString(2);
+            int pesel = cursor.getInt(3);
+
+            customerList.add(new Model(id, name, surname, pesel));
+        }
+
+        CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+               int idFromList = customerList.get(position).getId();
+               idOfPatient = idFromList;
+                Intent intent = new Intent(ShowPatients.this, EditPatient.class);
+                startActivity(intent);
             }
         });
     }
 
-    public void showMessage(String mess){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle("ha");
-        builder.setMessage(mess);
-        builder.show();
+    public void showFilteredList(){
+
+        ListView listView = findViewById(R.id.listView);
+
+        final Cursor cursorFilter;
+        surname = findViewById(R.id.surnameFiltrField);
+        pesel = findViewById(R.id.peselFiltrField);
+        String surnameText = surname.getText().toString().toLowerCase();
+        String peselText = pesel.getText().toString().toLowerCase();
+
+        if(!surnameText.equals("") && peselText.equals(""))
+            cursorFilter = dbHelper.getData(surnameText);
+        else if(surnameText.equals("") && !peselText.equals(""))
+            cursorFilter = dbHelper.getData(Integer.parseInt(peselText));
+        else
+            cursorFilter = dbHelper.getData(surnameText, Integer.parseInt(peselText));
+        
+        final ArrayList<Model> customerList = new ArrayList<>();
+        while (cursorFilter.moveToNext()){
+            int id = cursorFilter.getInt(0);
+            String name = cursorFilter.getString(1);
+            String surname = cursorFilter.getString(2);
+            int pesel = cursorFilter.getInt(3);
+
+            customerList.add(new Model(id, name, surname, pesel));
+        }
+
+        CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int idFromList = customerList.get(position).getId();
+                idOfPatient = idFromList;
+                Intent intent = new Intent(ShowPatients.this, EditPatient.class);
+                startActivity(intent);
+            }
+        });
     }
 }

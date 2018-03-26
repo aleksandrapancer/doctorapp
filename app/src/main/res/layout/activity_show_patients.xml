@@ -15,18 +15,39 @@
         android:layout_height="wrap_content"></LinearLayout>
 
     <EditText
-        android:id="@+id/sortField"
+        android:id="@+id/surnameFiltrField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Sortuj"
+        android:hint="Nazwisko"
         android:inputType="textPersonName" />
 
-    <Button
-        android:id="@+id/sortButton"
+
+    <EditText
+        android:id="@+id/peselFiltrField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sortuj" />
+        android:ems="10"
+        android:hint="Pesel"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/filtrButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filtruj"
+        android:onClick="addPatient"/>
+
+    <Button
+        android:id="@+id/addBuuton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dodaj" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
 
 

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     public void openAppointmentCreator(View view) {
         Intent intent = new Intent(this,  AppointmentCreator.class);
         startActivity(intent);
@@ -31,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,  AddPatient.class);
         startActivity(intent);
     }
+
     public void showPatients(View view) {
         Intent intent = new Intent(this,  ShowPatients.class);
         startActivity(intent);

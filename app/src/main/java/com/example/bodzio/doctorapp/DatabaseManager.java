@@ -51,6 +51,7 @@ public class DatabaseManager {
                     patientName+ " TEXT,"+patientSurname+" TEXT,"+patientPesel+" TEXT,"+patientBirthData+" TEXT,"+
                     patientAddress+" TEXT,"+patientEmail+" TEXT," +patientPhone+" TEXT)";
 
+
     static class DatabaseHelper extends SQLiteOpenHelper {
 
         DatabaseHelper(Context context) {
@@ -120,5 +121,46 @@ public class DatabaseManager {
     public Cursor getData(){
         Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE, null);
         return res;
+    }
+
+    public Cursor getData(String surname, int pesel) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'" + " AND " + patientPesel + " = '" + pesel + "'", null);
+        return res;
+    }
+
+    public Cursor getData(String surname) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'", null);
+        return res;
+    }
+
+    public Cursor getData(int pesel) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = '" + pesel + "'", null);
+        return res;
+    }
+
+    public Cursor getDataById(int id) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientID + " = '" + id + "'", null);
+        return res;
+    }
+
+    public void deleteData(int id) {
+        mDb.delete(PATIENT_TABLE, patientID + "=" + id, null);
+    }
+
+    public void updatePatientTable(int id, String name, String surname, String pesel, String birthData, String address, String email, String phone){
+
+        Log.d("Logcat", "update patient table - trial");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(patientName, name);
+        contentValues.put(patientSurname, surname);
+        contentValues.put(patientPesel, pesel);
+        contentValues.put(patientBirthData, birthData);
+        contentValues.put(patientAddress, address);
+        contentValues.put(patientEmail, email);
+        contentValues.put(patientPhone, phone);
+
+        mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
+        Log.d("Logcat", "update patient table - success");
     }
 }
