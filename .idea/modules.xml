@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/doctorapp.iml" filepath="$PROJECT_DIR$/doctorapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/sqlite-android-3220000/sqlite-android-3220000.iml" filepath="$PROJECT_DIR$/sqlite-android-3220000/sqlite-android-3220000.iml" />
-      <module fileurl="file://C:\Users\Kamila\Documents\GitKraken\doctorapp\sqlite-android-3220000\sqlite-android-3220000.iml" filepath="C:\Users\Kamila\Documents\GitKraken\doctorapp\sqlite-android-3220000\sqlite-android-3220000.iml" />
     </modules>
   </component>
 </project>

@@ -30,6 +30,11 @@ public class DatabaseManager {
     static final String patientEmail = "email";
     static final String patientPhone = "phone";
 
+    //visit table
+    static final String visitID = "id";
+    static final String visitPatientPesel = "pesel";
+    static final String visitNotes = "notes";
+
     private static final String TAG = "dbManager";
     private DatabaseHelper mDbHelper;
     public SQLiteDatabase mDb;
@@ -37,6 +42,7 @@ public class DatabaseManager {
     private static final String DATABASE_NAME = "doctorDB";
     public static final String APP_TABLE = "appointmentTable";
     public static final String PATIENT_TABLE = "patientTable";
+    public static final String VISIT_TABLE = "visitTable";
     private static final int DATABASE_VERSION = 1;
 
     private final Context mCtx;
@@ -51,6 +57,9 @@ public class DatabaseManager {
                     patientName+ " TEXT,"+patientSurname+" TEXT,"+patientPesel+" TEXT,"+patientBirthData+" TEXT,"+
                     patientAddress+" TEXT,"+patientEmail+" TEXT," +patientPhone+" TEXT)";
 
+    private static final String VISIT_PATIENT_TABLE_CREATE =
+            "CREATE TABLE IF NOT EXISTS "+VISIT_TABLE+" ("+visitID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                    visitPatientPesel+ " INTEGER,"+visitNotes+" TEXT)";
 
     static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -62,6 +71,7 @@ public class DatabaseManager {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(APP_TABLE_CREATE);
             db.execSQL(PATIENT_TABLE_CREATE);
+            db.execSQL(VISIT_PATIENT_TABLE_CREATE);
         }
 
         @Override
@@ -162,5 +172,10 @@ public class DatabaseManager {
 
         mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
         Log.d("Logcat", "update patient table - success");
+    }
+
+    public Cursor getAppointmentDataByDte(int date) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + date + " = '" + date + "'", null);
+        return res;
     }
 }

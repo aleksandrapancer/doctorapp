@@ -35,4 +35,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,  ShowPatients.class);
         startActivity(intent);
     }
+
+    public void showVisits(View view) {
+        Intent intent = new Intent(this,  ShowVisits.class);
+        startActivity(intent);
+    }
 }
