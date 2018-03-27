@@ -8,11 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
-/**
- * Created by Kamila on 2018-03-26.
- */
+import java.util.*;
+import java.util.Calendar;
 
 public class ShowVisits  extends AppCompatActivity {
 
@@ -28,6 +25,9 @@ public class ShowVisits  extends AppCompatActivity {
         dbHelper.open();
 
         ListView listView = findViewById(R.id.listView);
+
+        java.util.Calendar cc = Calendar.getInstance();
+        long d = cc.getTimeInMillis();
 
         final Cursor cursor = dbHelper.getData();
         final ArrayList<Model> customerList = new ArrayList<>();

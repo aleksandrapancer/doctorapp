@@ -15,6 +15,7 @@ public class DatabaseManager {
     static final String appointmentID = "id";
     static final String name = "name";
     static final String surname = "surname";
+    static final String pesel = "pesel";
     static final String date = "date";
     static final String hour = "hour";
     static final String minute = "minute";
@@ -49,7 +50,7 @@ public class DatabaseManager {
 
     private static final String APP_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+APP_TABLE+" ("+appointmentID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    name+" TEXT,"+surname+" TEXT,"+
+                    name+" TEXT,"+surname+" TEXT,"+pesel+" TEXT,"+
                     date+ " INTEGER,"+hour+" INTEGER,"+minute+" INTEGER,"+setAlert+" INTEGER)";
 
     private static final String PATIENT_TABLE_CREATE =
@@ -59,7 +60,7 @@ public class DatabaseManager {
 
     private static final String VISIT_PATIENT_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+VISIT_TABLE+" ("+visitID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    visitPatientPesel+ " INTEGER,"+visitNotes+" TEXT)";
+                    visitPatientPesel+ " TEXT,"+visitNotes+" TEXT)";
 
     static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -69,7 +70,7 @@ public class DatabaseManager {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(APP_TABLE_CREATE);
+          //  db.execSQL(APP_TABLE_CREATE);
             db.execSQL(PATIENT_TABLE_CREATE);
             db.execSQL(VISIT_PATIENT_TABLE_CREATE);
         }
@@ -80,6 +81,7 @@ public class DatabaseManager {
                     + newVersion + ", which will destroy all old data");
             db.execSQL("DROP TABLE IF EXISTS " + APP_TABLE);
             db.execSQL("DROP TABLE IF EXISTS " + PATIENT_TABLE);
+            db.execSQL("DROP TABLE IF EXISTS " + VISIT_TABLE);
             onCreate(db);
         }
     }
@@ -116,16 +118,24 @@ public class DatabaseManager {
         return mDb.insert(PATIENT_TABLE, null, contentValues);
     }
 
-    public long insertAppointmentTab(String n, String s, long d, int h, int min, int alert){
+    public long insertAppointmentTab(String n, String s,String p, long d, int h, int min, int alert){
         ContentValues contentValues = new ContentValues();
         contentValues.put(name, n);
         contentValues.put(surname, s);
+        contentValues.put(pesel, p);
         contentValues.put(date, d);
         contentValues.put(hour,h);
         contentValues.put(minute, min);
         contentValues.put(setAlert, alert);
 
         return mDb.insert(APP_TABLE, null, contentValues);
+    }
+
+    public long insertVisitTab(String pesel){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(visitPatientPesel, pesel);
+
+        return mDb.insert(VISIT_TABLE, null, contentValues);
     }
 
     public Cursor getData(){

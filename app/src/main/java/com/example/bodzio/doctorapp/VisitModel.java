@@ -1,19 +1,14 @@
 package com.example.bodzio.doctorapp;
 
-/**
- * Created by Kamila on 2018-03-27.
- */
 
 public class VisitModel {
     private int visitId;
-    private int appId;
-    private int patientId;
+    private int pesel;
     private String note;
 
-    public VisitModel(int visitId, int appId, int patientId, String note) {
+    public VisitModel(int visitId, int pesel, String note) {
         this.visitId = visitId;
-        this.appId = appId;
-        this.patientId = patientId;
+        this.pesel = pesel;
         this.note = note;
     }
 
@@ -21,12 +16,8 @@ public class VisitModel {
         return visitId;
     }
 
-    public int getAppId(){
-        return  appId;
-    }
-
-    public int getPatientId(){
-        return patientId;
+    public int getPesel(){
+        return  pesel;
     }
 
     public String getNote(){

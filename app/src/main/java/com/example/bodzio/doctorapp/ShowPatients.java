@@ -107,4 +107,8 @@ public class ShowPatients extends AppCompatActivity {
             }
         });
     }
+    public void addPatient(View view) {
+        Intent intent = new Intent(ShowPatients.this,  AddPatient.class);
+        startActivity(intent);
+    }
 }

@@ -42,8 +42,10 @@ public class AppointmentCreator extends AppCompatActivity {
 
         EditText nameIn = findViewById(R.id.nameText);
         EditText surnameIn = findViewById(R.id.surnameText);
+        EditText peselIn = findViewById(R.id.peselText);
         String name = nameIn.getText().toString();
         String surname = surnameIn.getText().toString();
+        String pesel = peselIn.getText().toString();
         CheckBox alert =  findViewById(R.id.alertCheckbox);
         boolean alertSet = alert.isChecked();
         int a;
@@ -59,11 +61,17 @@ public class AppointmentCreator extends AppCompatActivity {
         }else if(hour == 0 || minute == 0){
             Toast.makeText(this, getResources().getString(R.string.notimeselected), Toast.LENGTH_LONG).show();
         }else{
-            long i = dbHelper.insertAppointmentTab(name,surname,date,hour,minute,a);
+            long i = dbHelper.insertAppointmentTab(name,surname,pesel,date,hour,minute,a);
             if (i!=-1){
                 Toast.makeText(this, getResources().getString(R.string.addedtodatabase), Toast.LENGTH_LONG).show();
             }else {
                 Toast.makeText(this, getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
+            }
+            long j = dbHelper.insertVisitTab(pesel);
+            if (j!=-1){
+                Toast.makeText(this, "Stworzono wizyty", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "Nie stworzono wizyty", Toast.LENGTH_LONG).show();
             }
         }
     }
