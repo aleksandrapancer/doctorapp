@@ -182,7 +182,7 @@
                 android:clickable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:onClick="addPatient"
+                android:onClick="addNotes"
                 android:focusable="true">
 
                 <ImageView
@@ -196,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Dodaj pacjenta"
+                    android:text="Dodaj notatkę"
                     android:textStyle="bold" />
 
                 <View
@@ -210,7 +210,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Dodaj pacjenta do bazy danych"
+                    android:text="Dodaj notatkę lub wyniki badań"
                     android:textColor="@android:color/darker_gray" />
 
             </LinearLayout>

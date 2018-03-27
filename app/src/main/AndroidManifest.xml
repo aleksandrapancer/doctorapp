@@ -30,6 +30,7 @@
         <activity android:name=".AddPatient" />
         <activity android:name=".ShowPatients" />
         <activity android:name=".EditPatient" />
+        <activity android:name=".AddNotes" />
     </application>
 
 </manifest>
