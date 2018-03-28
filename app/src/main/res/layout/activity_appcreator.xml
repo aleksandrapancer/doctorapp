@@ -56,12 +56,16 @@
         android:id="@+id/peselText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:focusableInTouchMode="true"
+        android:inputType="number"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:maxLength="11"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:backgroundTint="@color/colorPrimaryDark" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="36dp" />
+        android:layout_height="25dp" />
 
     <TextView
         android:layout_width="match_parent"

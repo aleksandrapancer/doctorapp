@@ -14,7 +14,7 @@ public class Model {
     private String email;
     private int phone;
 
-    public Model(String name, String surname, int pesel, String birthData, String address, String email, int phone) {
+    public Model(String nameText, String surnameText, int pesel, String birthDataText, String addressText, String emailText, int phoneText) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;

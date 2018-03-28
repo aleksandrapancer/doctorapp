@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DatabaseManager {
 
     //appointments table
@@ -70,7 +73,7 @@ public class DatabaseManager {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-          //  db.execSQL(APP_TABLE_CREATE);
+            db.execSQL(APP_TABLE_CREATE);
             db.execSQL(PATIENT_TABLE_CREATE);
             db.execSQL(VISIT_PATIENT_TABLE_CREATE);
         }
@@ -168,7 +171,6 @@ public class DatabaseManager {
     }
 
     public void updatePatientTable(int id, String name, String surname, String pesel, String birthData, String address, String email, String phone){
-
         Log.d("Logcat", "update patient table - trial");
 
         ContentValues contentValues = new ContentValues();
@@ -184,8 +186,17 @@ public class DatabaseManager {
         Log.d("Logcat", "update patient table - success");
     }
 
-    public Cursor getAppointmentDataByDte(int date) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + date + " = '" + date + "'", null);
+
+    //method for searching appointments by date selected in calendar
+    public Cursor getAppointmentByDate(long selectedDate) {
+        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + date + " = '" + selectedDate + "'", null);
         return res;
     }
+
+    public Cursor getDates() {
+        Cursor res =  mDb.rawQuery( "SELECT " +date+ " FROM "+ APP_TABLE +"", null );
+        return res;
+    }
+
+
 }

@@ -7,4 +7,6 @@
     <string name="notimeselected">Nie wybrano daty lub czasu wizyty!</string>
     <string name="addedtodatabase">Zapisano wizytę!</string>
     <string name="failed">Błąd zapisu!</string>
+    <string name="wrongPesel">Nieprawidłowy pesel!</string>
+    <string name="noappoint">Brak wizyt!</string>
 </resources>
