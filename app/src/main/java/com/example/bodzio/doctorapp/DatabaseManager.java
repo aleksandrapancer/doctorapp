@@ -280,9 +280,9 @@ public class DatabaseManager {
 
     //method for searching appointments by date selected in calendar
     public Cursor getAppointmentByDate(long selectedDate) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + date + " = '" + selectedDate + "'", null);
+        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + appointmentDate + " = '" + selectedDate + "'", null);
         return res;
-
+    }
     //visit table
     public Cursor getNotesByPeselVisit(String pesel){
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
@@ -294,7 +294,7 @@ public class DatabaseManager {
     }
 
     public Cursor getDates() {
-        Cursor res =  mDb.rawQuery( "SELECT " +date+ " FROM "+ APP_TABLE +"", null );
+        Cursor res =  mDb.rawQuery( "SELECT " +appointmentDate+ " FROM "+ APP_TABLE +"", null );
         return res;
     }
 
