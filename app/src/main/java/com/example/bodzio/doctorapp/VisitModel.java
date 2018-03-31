@@ -1,6 +1,6 @@
 package com.example.bodzio.doctorapp;
 
-
+//visit table model
 public class VisitModel {
     private int visitId;
     private String pesel;

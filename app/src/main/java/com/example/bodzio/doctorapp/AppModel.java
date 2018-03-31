@@ -1,6 +1,6 @@
 package com.example.bodzio.doctorapp;
 
-
+//appointment table model
 public class AppModel {
     private int id;
     private String name;

@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AddPatient extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
 
-    EditText name, surname, pesel, birthData, address, email, phone;
+    EditText name, surname, pesel, address, email, phone;
     Button addButton;
+    Spinner daySpiner, monthSpiner, yearSpiner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,32 +29,57 @@ public class AddPatient extends AppCompatActivity {
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
+
+        //show dropdown (day, month, year)
+        daySpiner = findViewById(R.id.spinerDay);
+        monthSpiner = findViewById(R.id.spinerMonth);
+        yearSpiner = findViewById(R.id.spinerYear);
+
+        ArrayList<String> days = new ArrayList<String>();
+        for (int i = 1; i <= 31; i++) {
+            days.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, days);
+        daySpiner.setAdapter(dayAdapter);
+
+        ArrayAdapter<String> month = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.monthArray));
+        month.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        monthSpiner.setAdapter(month);
+
+        ArrayList<String> year = new ArrayList<String>();
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        for (int i = 1900; i <= thisYear; i++) {
+            year.add(Integer.toString(i));
+        }
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, year);
+        yearSpiner.setAdapter(yearAdapter);
     }
 
     public void add(View v) {
                 name = findViewById(R.id.nameField);
                 surname = findViewById(R.id.surnameField);
                 pesel = findViewById(R.id.peselField);
-                birthData = findViewById(R.id.birthDataField);
                 address = findViewById(R.id.addressField);
                 email = findViewById(R.id.emailField);
                 phone = findViewById(R.id.phoneField);
                 addButton = findViewById(R.id.addButton);
 
-
+                //check if all the fields are fill correct
         if(isNotEmpty(name.getText().toString(),
                 surname.getText().toString(),
                 pesel.getText().toString(),
-                birthData.getText().toString(),
                 address.getText().toString(),
                 email.getText().toString(),
                 phone.getText().toString())) {
             if(dbHelper.ifPatientNotExist(pesel.getText().toString())) {
 
+                //insert values to database
                 long i = dbHelper.insertPatientTab(name.getText().toString().toLowerCase(),
                         surname.getText().toString().toLowerCase(),
                         pesel.getText().toString().toLowerCase(),
-                        birthData.getText().toString().toLowerCase(),
+                        daySpiner.getSelectedItem().toString(),
+                        monthSpiner.getSelectedItem().toString(),
+                        yearSpiner.getSelectedItem().toString(),
                         address.getText().toString().toLowerCase(),
                         email.getText().toString().toLowerCase(),
                         phone.getText().toString().toLowerCase());
@@ -55,7 +87,7 @@ public class AddPatient extends AppCompatActivity {
 
                 if (i != -1) {
                     Toast.makeText(this, "Zapisano pacjeta", Toast.LENGTH_LONG).show();
-                    cleanField();
+                   // cleanField();
                     Intent intent = new Intent(AddPatient.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -68,7 +100,8 @@ public class AddPatient extends AppCompatActivity {
         }
     }
 
-    public boolean isNotEmpty(String name, String surname, String pesel, String birthData, String address, String email, String phone){
+    //check if fields are fill correct
+    public boolean isNotEmpty(String name, String surname, String pesel, String address, String email, String phone){
 
         if(name.equals("") || name == null){
             Toast.makeText(this, "Wpisz imie.", Toast.LENGTH_LONG).show();
@@ -80,10 +113,6 @@ public class AddPatient extends AppCompatActivity {
         }
         else if(pesel.equals("") || pesel == null || pesel.length()<11){
             Toast.makeText(this, "Wpisz pesel.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if(birthData.equals("") || birthData == null){
-            Toast.makeText(this, "Wpisz date urodzenia.", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(address.equals("") || address == null){
@@ -103,14 +132,14 @@ public class AddPatient extends AppCompatActivity {
         }
     }
 
-    public void cleanField (){
+    //clean all the fields after add patient
+    /*public void cleanField (){
         name.setText("");
         surname.setText("");
         pesel.setText("");
-        birthData.setText("");
         address.setText("");
         email.setText("");
         phone.setText("");
-    }
+    }*/
  }
 

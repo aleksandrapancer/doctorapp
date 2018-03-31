@@ -1,32 +1,38 @@
 package com.example.bodzio.doctorapp;
 
-
+//patient table model
 public class Model {
     private int Id;
     private  String name;
     private  String surname;
     private String pesel;
-    private String birthData;
+    private String day;
+    private String month;
+    private String year;
     private String address;
     private String email;
     private int phone;
 
-    public Model(int id, String name, String surname, String pesel, String birthData, String address, String email, int phone) {
+    public Model(int id, String name, String surname, String pesel, String day, String month, String year, String address, String email, int phone) {
         this.Id = id;
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
-        this.birthData = birthData;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.address = address;
         this.email = email;
         this.phone = phone;
     }
 
-    public Model(String name, String surname, String pesel, String birthData, String address, String email, int phone) {
+    public Model(String name, String surname, String pesel, String day, String month, String year, String address, String email, int phone) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
-        this.birthData = birthData;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.address = address;
         this.email = email;
         this.phone = phone;
@@ -62,9 +68,11 @@ public class Model {
         return pesel;
     }
 
-    public String getBirthData() {
-        return birthData;
-    }
+    public String getDay() { return day; }
+
+    public String getMonth() { return month; }
+
+    public String getYear() { return year; }
 
     public String getAddress(){
         return address;

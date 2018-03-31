@@ -20,8 +20,10 @@
         android:layout_height="515dp"
         android:ems="10"
         android:hint="Wpisz notatke"
-        android:inputType="text"
-        android:textAlignment="center" />
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:textAlignment="center"
+        android:background="@android:color/transparent"/>
 
     <Button
         android:id="@+id/addNoteBuuton"

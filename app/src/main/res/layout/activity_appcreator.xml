@@ -59,10 +59,9 @@
         tools:focusableInTouchMode="true"
         android:inputType="number"
         android:ems="10"
-        android:backgroundTint="@color/colorPrimaryDark" />
+        android:backgroundTint="@color/colorPrimaryDark"
         android:textColorHint="@color/colorPrimaryDark"
-        android:maxLength="11"
-        android:inputType="number" />
+        android:maxLength="11" />
 
     <Space
         android:layout_width="match_parent"

@@ -32,7 +32,9 @@ public class DatabaseManager {
     static final String patientName = "name";
     static final String patientSurname = "surname";
     static final String patientPesel = "pesel";
-    static final String patientBirthData = "birthData";
+    static final String patientBirthDataDay = "birthDataDay";
+    static final String patientBirthDataMonth = "birthDataMonth";
+    static final String patientBirthDataYear = "birthDataYear";
     static final String patientAddress = "address";
     static final String patientEmail = "email";
     static final String patientPhone = "phone";
@@ -61,12 +63,14 @@ public class DatabaseManager {
 
     private static final String PATIENT_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+PATIENT_TABLE+" ("+patientID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    patientName+ " TEXT,"+patientSurname+" TEXT,"+patientPesel+" TEXT,"+patientBirthData+" TEXT,"+
+                    patientName+ " TEXT,"+patientSurname+" TEXT,"+patientPesel+" TEXT,"+patientBirthDataDay+" TEXT,"+
+                    patientBirthDataMonth+" TEXT,"+patientBirthDataYear+" TEXT,"+
                     patientAddress+" TEXT,"+patientEmail+" TEXT," +patientPhone+" TEXT)";
 
     private static final String VISIT_PATIENT_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+VISIT_TABLE+" ("+visitID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    visitPatientPesel+ " TEXT,"+visitNotes+" TEXT)";
+                    visitPatientPesel+ " TEXT,"+visitNotes+" TEXT, FOREIGN KEY ("+visitPatientPesel+") REFERENCES "+APP_TABLE+"("+appointmentPesel+")," +
+                    "FOREIGN KEY ("+visitPatientPesel+") REFERENCES "+PATIENT_TABLE+"("+patientPesel+"))";
 
     static class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -109,14 +113,16 @@ public class DatabaseManager {
     }
 
     //insert new values
-    public long insertPatientTab(String name, String surname, String pesel, String birthData, String address, String email, String phone){
+    public long insertPatientTab(String name, String surname, String pesel, String day, String month, String year, String address, String email, String phone){
         Log.d("Logcat", "insert patient table - trial");
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(patientName, name);
         contentValues.put(patientSurname, surname);
         contentValues.put(patientPesel, pesel);
-        contentValues.put(patientBirthData, birthData);
+        contentValues.put(patientBirthDataDay, day);
+        contentValues.put(patientBirthDataMonth, month);
+        contentValues.put(patientBirthDataYear, year);
         contentValues.put(patientAddress, address);
         contentValues.put(patientEmail, email);
         contentValues.put(patientPhone, phone);
@@ -150,7 +156,7 @@ public class DatabaseManager {
 
 
     //update values
-    public long updatePatientTable(int id, String name, String surname, String pesel, String birthData, String address, String email, String phone){
+    public long updatePatientTable(int id, String name, String surname, String pesel, String day, String month, String year, String address, String email, String phone){
 
         Log.d("Logcat", "update patient table - trial");
 
@@ -158,7 +164,9 @@ public class DatabaseManager {
         contentValues.put(patientName, name);
         contentValues.put(patientSurname, surname);
         contentValues.put(patientPesel, pesel);
-        contentValues.put(patientBirthData, birthData);
+        contentValues.put(patientBirthDataDay, day);
+        contentValues.put(patientBirthDataMonth, month);
+        contentValues.put(patientBirthDataYear, year);
         contentValues.put(patientAddress, address);
         contentValues.put(patientEmail, email);
         contentValues.put(patientPhone, phone);
@@ -196,7 +204,7 @@ public class DatabaseManager {
         while (res.moveToNext()){
             list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
                     res.getString(3), res.getString(4), res.getString(5),
-                    res.getString(6), res.getInt(7))));
+                    res.getString(6), res.getString(7), res.getString(8), res.getInt(9))));
         }
 
         return list;
@@ -228,7 +236,7 @@ public class DatabaseManager {
         while (res.moveToNext()){
             list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
                     res.getString(3), res.getString(4), res.getString(5),
-                    res.getString(6), res.getInt(7))));        }
+                    res.getString(6), res.getString(7), res.getString(8), res.getInt(9))));        }
 
         return list;
     }
@@ -277,19 +285,17 @@ public class DatabaseManager {
         return list;
     }
 
-
     //method for searching appointments by date selected in calendar
     public Cursor getAppointmentByDate(long selectedDate) {
         Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + appointmentDate + " = '" + selectedDate + "'", null);
         return res;
     }
+
+
     //visit table
     public Cursor getNotesByPeselVisit(String pesel){
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
 
-        Cursor t = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE, null);
-        int r = cursor.getCount();
-        int w = t.getCount();
         return cursor;
     }
 

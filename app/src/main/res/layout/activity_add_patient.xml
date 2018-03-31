@@ -36,15 +36,23 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Pesel"
-        android:inputType="number" />
+        android:inputType="number"
+        android:maxLength="11" />
 
-    <EditText
-        android:id="@+id/birthDataField"
+    <Spinner
+        android:id="@+id/spinerDay"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Data urodzenia"
-        android:inputType="date" />
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spinerMonth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Spinner
+        android:id="@+id/spinerYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/addressField"
