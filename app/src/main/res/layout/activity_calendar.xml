@@ -6,8 +6,12 @@
     android:orientation="vertical"
     tools:context="com.example.bodzio.doctorapp.MainActivity">
 
-    <CalendarView
-        android:id="@+id/calendarView3"
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="#fe104d" />
+
 </LinearLayout>

@@ -25,7 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Calendar" />
+        <activity android:name=".AppointmentCalendar" />
         <activity android:name=".AppointmentCreator" />
         <activity android:name=".AddPatient" />
         <activity android:name=".ShowPatients" />
