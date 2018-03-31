@@ -44,16 +44,7 @@ public class ShowPatients extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listView);
 
-        final Cursor cursor = dbHelper.getData();
-        final ArrayList<Model> customerList = new ArrayList<>();
-        while (cursor.moveToNext()){
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            String surname = cursor.getString(2);
-            int pesel = cursor.getInt(3);
-
-            customerList.add(new Model(id, name, surname, pesel));
-        }
+        final ArrayList<Model> customerList = dbHelper.getAllDataPatient();
 
         CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
         listView.setAdapter(adapter);
@@ -70,37 +61,29 @@ public class ShowPatients extends AppCompatActivity {
 
     public void showFilteredList(){
 
+        final ArrayList<Model> customerListFilter;
         ListView listView = findViewById(R.id.listView);
 
-        final Cursor cursorFilter;
         surname = findViewById(R.id.surnameFiltrField);
         pesel = findViewById(R.id.peselFiltrField);
         String surnameText = surname.getText().toString().toLowerCase();
         String peselText = pesel.getText().toString().toLowerCase();
 
         if(!surnameText.equals("") && peselText.equals(""))
-            cursorFilter = dbHelper.getData(surnameText);
+            customerListFilter = dbHelper.getDataBySurnamePatient(surnameText);
         else if(surnameText.equals("") && !peselText.equals(""))
-            cursorFilter = dbHelper.getData(Integer.parseInt(peselText));
+            customerListFilter = dbHelper.getDataByPeselPatient(peselText);
         else
-            cursorFilter = dbHelper.getData(surnameText, Integer.parseInt(peselText));
-        
-        final ArrayList<Model> customerList = new ArrayList<>();
-        while (cursorFilter.moveToNext()){
-            int id = cursorFilter.getInt(0);
-            String name = cursorFilter.getString(1);
-            String surname = cursorFilter.getString(2);
-            int pesel = cursorFilter.getInt(3);
+            customerListFilter = dbHelper.getDataPatient(surnameText, peselText);
 
-            customerList.add(new Model(id, name, surname, pesel));
-        }
 
-        CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
+
+        CustomUserAdapter adapter = new CustomUserAdapter(this, customerListFilter);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int idFromList = customerList.get(position).getId();
+                int idFromList = customerListFilter.get(position).getId();
                 idOfPatient = idFromList;
                 Intent intent = new Intent(ShowPatients.this, EditPatient.class);
                 startActivity(intent);

@@ -15,14 +15,16 @@
 
 
     <EditText
+        android:id="@+id/notesText"
         android:layout_width="match_parent"
         android:layout_height="515dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"/>
+        android:hint="Wpisz notatke"
+        android:inputType="text"
+        android:textAlignment="center" />
 
     <Button
-        android:id="@+id/addBuuton"
+        android:id="@+id/addNoteBuuton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="dodaj" />

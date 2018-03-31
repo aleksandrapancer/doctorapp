@@ -3,10 +3,10 @@ package com.example.bodzio.doctorapp;
 
 public class VisitModel {
     private int visitId;
-    private int pesel;
+    private String pesel;
     private String note;
 
-    public VisitModel(int visitId, int pesel, String note) {
+    public VisitModel(int visitId, String pesel, String note) {
         this.visitId = visitId;
         this.pesel = pesel;
         this.note = note;
@@ -16,7 +16,7 @@ public class VisitModel {
         return visitId;
     }
 
-    public int getPesel(){
+    public String getPesel(){
         return  pesel;
     }
 

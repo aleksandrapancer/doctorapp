@@ -78,10 +78,17 @@
         android:text="Zmień" />
 
     <Button
+        android:id="@+id/showNotesButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pokaz notatki" />
+
+    <Button
         android:id="@+id/deleteButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Usuń" />
+
 </LinearLayout>
 
 

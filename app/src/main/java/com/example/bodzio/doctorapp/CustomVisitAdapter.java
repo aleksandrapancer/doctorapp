@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class CustomVisitAdapter extends ArrayAdapter<Model>{
+public class CustomVisitAdapter extends ArrayAdapter<AppModel>{
 
-    public CustomVisitAdapter(Context context, ArrayList<Model> users) {
+    public CustomVisitAdapter(Context context, ArrayList<AppModel> users) {
         super(context, 0, users);
     }
 
@@ -22,7 +22,7 @@ public class CustomVisitAdapter extends ArrayAdapter<Model>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_custom, parent, false);
         }
 
-        Model user = getItem(position);
+        AppModel user = getItem(position);
 
         TextView name = (TextView) convertView.findViewById(R.id.textName);
         TextView surname = (TextView) convertView.findViewById(R.id.textSurname);

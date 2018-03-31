@@ -9,17 +9,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.*;
+import java.util.Calendar;
+
 public class DatabaseManager {
 
     //appointments table
     static final String appointmentID = "id";
-    static final String name = "name";
-    static final String surname = "surname";
-    static final String pesel = "pesel";
-    static final String date = "date";
-    static final String hour = "hour";
-    static final String minute = "minute";
-    static final String setAlert = "alert";
+    static final String appointmentName = "name";
+    static final String appointmentSurname = "surname";
+    static final String appointmentPesel = "pesel";
+    static final String appointmentDate = "date";
+    static final String appointmentHour = "hour";
+    static final String appointmentMinute = "minute";
+    static final String appointmentSetAlert = "alert";
 
     //patients table
     static final String patientID = "id";
@@ -50,8 +53,8 @@ public class DatabaseManager {
 
     private static final String APP_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+APP_TABLE+" ("+appointmentID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    name+" TEXT,"+surname+" TEXT,"+pesel+" TEXT,"+
-                    date+ " INTEGER,"+hour+" INTEGER,"+minute+" INTEGER,"+setAlert+" INTEGER)";
+                    appointmentName+" TEXT,"+appointmentSurname+" TEXT,"+appointmentPesel+" TEXT,"+
+                    appointmentDate+ " INTEGER,"+appointmentHour+" INTEGER,"+appointmentMinute+" INTEGER,"+appointmentSetAlert+" INTEGER)";
 
     private static final String PATIENT_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+PATIENT_TABLE+" ("+patientID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
@@ -70,7 +73,7 @@ public class DatabaseManager {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-          //  db.execSQL(APP_TABLE_CREATE);
+            db.execSQL(APP_TABLE_CREATE);
             db.execSQL(PATIENT_TABLE_CREATE);
             db.execSQL(VISIT_PATIENT_TABLE_CREATE);
         }
@@ -102,6 +105,7 @@ public class DatabaseManager {
         }
     }
 
+    //insert new values
     public long insertPatientTab(String name, String surname, String pesel, String birthData, String address, String email, String phone){
         Log.d("Logcat", "insert patient table - trial");
 
@@ -114,60 +118,36 @@ public class DatabaseManager {
         contentValues.put(patientEmail, email);
         contentValues.put(patientPhone, phone);
 
-        Log.d("Logcat", "insert patient table - success");
         return mDb.insert(PATIENT_TABLE, null, contentValues);
     }
 
-    public long insertAppointmentTab(String n, String s,String p, long d, int h, int min, int alert){
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(name, n);
-        contentValues.put(surname, s);
-        contentValues.put(pesel, p);
-        contentValues.put(date, d);
-        contentValues.put(hour,h);
-        contentValues.put(minute, min);
-        contentValues.put(setAlert, alert);
+    public long insertAppointmentTab(String name, String surname,String pesel, long date, int hour, int minute, int alert){
+        Log.d("Logcat", "insert appointment table - trial");
 
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(appointmentName, name);
+        contentValues.put(appointmentSurname, surname);
+        contentValues.put(appointmentPesel, pesel);
+        contentValues.put(appointmentDate, date);
+        contentValues.put(appointmentHour,hour);
+        contentValues.put(appointmentMinute, minute);
+        contentValues.put(appointmentSetAlert, alert);
+
+        Log.d("Logcat", "insert appointment table - success");
         return mDb.insert(APP_TABLE, null, contentValues);
     }
 
     public long insertVisitTab(String pesel){
         ContentValues contentValues = new ContentValues();
         contentValues.put(visitPatientPesel, pesel);
+        contentValues.put(visitNotes, "");
 
         return mDb.insert(VISIT_TABLE, null, contentValues);
     }
 
-    public Cursor getData(){
-        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE, null);
-        return res;
-    }
 
-    public Cursor getData(String surname, int pesel) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'" + " AND " + patientPesel + " = '" + pesel + "'", null);
-        return res;
-    }
-
-    public Cursor getData(String surname) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'", null);
-        return res;
-    }
-
-    public Cursor getData(int pesel) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = '" + pesel + "'", null);
-        return res;
-    }
-
-    public Cursor getDataById(int id) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientID + " = '" + id + "'", null);
-        return res;
-    }
-
-    public void deleteData(int id) {
-        mDb.delete(PATIENT_TABLE, patientID + "=" + id, null);
-    }
-
-    public void updatePatientTable(int id, String name, String surname, String pesel, String birthData, String address, String email, String phone){
+    //update values
+    public long updatePatientTable(int id, String name, String surname, String pesel, String birthData, String address, String email, String phone){
 
         Log.d("Logcat", "update patient table - trial");
 
@@ -180,12 +160,128 @@ public class DatabaseManager {
         contentValues.put(patientEmail, email);
         contentValues.put(patientPhone, phone);
 
-        mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
-        Log.d("Logcat", "update patient table - success");
+        return mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
+        //Log.d("Logcat", "update patient table - success");
     }
 
-    public Cursor getAppointmentDataByDte(int date) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + date + " = '" + date + "'", null);
-        return res;
+    public long updateVisitTable(String pesel, String note){
+
+        Log.d("Logcat", "update visit table - trial");
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(visitNotes, note);
+
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
+        int e=cursor.getCount();
+
+        return mDb.update(VISIT_TABLE, contentValues, visitPatientPesel + "= " + pesel, null);
+        //  Log.d("Logcat", "update visit table - success");
+    }
+
+
+    //delete values
+    public void deleteData(int id) {
+        mDb.delete(PATIENT_TABLE, patientID + "=" + id, null);
+    }
+
+
+    //select from tables
+    //patient table
+    public ArrayList<Model> getAllDataPatient(){
+        ArrayList<Model> list = new ArrayList<>();
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE, null);
+        while (res.moveToNext()){
+            list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3), res.getString(4), res.getString(5),
+                    res.getString(6), res.getInt(7))));
+        }
+
+        return list;
+    }
+
+    public ArrayList<Model> getDataPatient(String surname, String pesel) {
+        ArrayList<Model> list = new ArrayList<>();
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'" + " AND " + patientPesel + " = '" + pesel + "'", null);
+        while (res.moveToNext()){
+            list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3))));        }
+
+        return list;
+    }
+
+    public ArrayList<Model> getDataBySurnamePatient(String surname) {
+        ArrayList<Model> list = new ArrayList<>();
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientSurname + " = '" + surname + "'", null);
+        while (res.moveToNext()){
+            list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3))));        }
+
+        return list;
+    }
+
+    public ArrayList<Model> getDataByIdPatient(int id) {
+        ArrayList<Model> list = new ArrayList<>();
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientID + " = '" + id + "'", null);
+        while (res.moveToNext()){
+            list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3), res.getString(4), res.getString(5),
+                    res.getString(6), res.getInt(7))));        }
+
+        return list;
+    }
+
+    public ArrayList<Model> getDataByPeselPatient(String pesel) {
+        ArrayList<Model> list = new ArrayList<>();
+        Cursor res = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = '" + pesel + "'", null);
+        while (res.moveToNext()){
+            list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3))));
+        }
+
+        return list;
+    }
+
+    public boolean ifPatientNotExist(String pesel) {
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = '" + pesel + "'", null);
+        if (cursor.getCount() == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+
+    //app table
+    public ArrayList<AppModel> getDataByDateApp(long visitDate){
+        Date fullTime = new Date(visitDate);
+        int month2 = fullTime.getMonth();
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(visitDate);
+        int day = c.get(java.util.Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(java.util.Calendar.YEAR);
+        ArrayList<AppModel> list = new ArrayList<>();
+        String sql = "SELECT * FROM " + APP_TABLE +
+                " WHERE " +
+                "strftime('%d%m%Y', "+ appointmentDate +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month2 + 1,year)+"'";
+        Cursor res = mDb.rawQuery(sql, null);
+        while (res.moveToNext()){
+            list.add((new AppModel(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3), res.getString(4))));
+        }
+
+        return list;
+    }
+
+
+    //visit table
+    public Cursor getNotesByPeselVisit(String pesel){
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
+
+        Cursor t = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE, null);
+        int r = cursor.getCount();
+        int w = t.getCount();
+        return cursor;
     }
 }

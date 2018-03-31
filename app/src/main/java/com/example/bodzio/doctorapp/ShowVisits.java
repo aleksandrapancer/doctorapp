@@ -1,20 +1,21 @@
 package com.example.bodzio.doctorapp;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import static android.text.TextUtils.substring;
 
 public class ShowVisits  extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
-    static int idOfVisit;
+    static String patientPesel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +27,21 @@ public class ShowVisits  extends AppCompatActivity {
 
         ListView listView = findViewById(R.id.listView);
 
-        java.util.Calendar cc = Calendar.getInstance();
-        long d = cc.getTimeInMillis();
+        //get today data
+        Calendar calendar = Calendar.getInstance();
+        long date = calendar.getTimeInMillis();
 
-        final Cursor cursor = dbHelper.getData();
-        final ArrayList<Model> customerList = new ArrayList<>();
-        while (cursor.moveToNext()){
-            int id = cursor.getInt(0);
-            String name = cursor.getString(1);
-            String surname = cursor.getString(2);
-            int pesel = cursor.getInt(3);
-
-            customerList.add(new Model(id, name, surname, pesel));
-        }
-
-        CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
+        //show list of patients who have appointment today
+        final ArrayList<AppModel> visitList = dbHelper.getDataByDateApp(date);
+        CustomVisitAdapter adapter = new CustomVisitAdapter(this, visitList);
         listView.setAdapter(adapter);
+
+        //action after press on the patient
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int idFromList = customerList.get(position).getId();
-                idOfVisit = idFromList;
+                String peselFromList = visitList.get(position).getPesel();
+                patientPesel = peselFromList;
                 Intent intent = new Intent(ShowVisits.this, AddNotes.class);
                 startActivity(intent);
             }
