@@ -36,18 +36,19 @@ public class AddPatient extends AppCompatActivity {
         yearSpiner = findViewById(R.id.spinerYear);
 
         ArrayList<String> days = new ArrayList<String>();
+        days.add("Dzień urodzenia");
         for (int i = 1; i <= 31; i++) {
             days.add(Integer.toString(i));
         }
         ArrayAdapter<String> dayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, days);
         daySpiner.setAdapter(dayAdapter);
-
         ArrayAdapter<String> month = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.monthArray));
         month.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         monthSpiner.setAdapter(month);
 
         ArrayList<String> year = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        year.add("Rok urodzenia");
         for (int i = 1900; i <= thisYear; i++) {
             year.add(Integer.toString(i));
         }
@@ -87,7 +88,6 @@ public class AddPatient extends AppCompatActivity {
 
                 if (i != -1) {
                     Toast.makeText(this, "Zapisano pacjeta", Toast.LENGTH_LONG).show();
-                   // cleanField();
                     Intent intent = new Intent(AddPatient.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -127,19 +127,22 @@ public class AddPatient extends AppCompatActivity {
             Toast.makeText(this, "Wpisz numer telefonu.", Toast.LENGTH_LONG).show();
             return false;
         }
+        else if(daySpiner.getSelectedItem().toString()=="Dzień urodzenia"){
+            Toast.makeText(this, "Wybierz dzień urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(monthSpiner.getSelectedItem().toString()=="Miesiąc urodzenia"){
+            Toast.makeText(this, "Wybierz miesiąc urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(yearSpiner.getSelectedItem().toString()=="Rok urodzenia"){
+            Toast.makeText(this, "Wybierz rok urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
         else {
             return true;
         }
     }
 
-    //clean all the fields after add patient
-    /*public void cleanField (){
-        name.setText("");
-        surname.setText("");
-        pesel.setText("");
-        address.setText("");
-        email.setText("");
-        phone.setText("");
-    }*/
  }
 

@@ -39,6 +39,7 @@ public class EditPatient extends AppCompatActivity {
         yearSpiner = findViewById(R.id.spinerYear);
 
         ArrayList<String> days = new ArrayList<String>();
+        days.add("Dzień urodzenia");
         for (int i = 1; i <= 31; i++) {
             days.add(Integer.toString(i));
         }
@@ -51,6 +52,7 @@ public class EditPatient extends AppCompatActivity {
 
         ArrayList<String> year = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        year.add("Rok urodzenia");
         for (int i = 1900; i <= thisYear; i++) {
             year.add(Integer.toString(i));
         }
@@ -99,21 +101,28 @@ public class EditPatient extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long result = dbHelper.updatePatientTable(id, name.getText().toString().toLowerCase(),
-                        surname.getText().toString().toLowerCase(),
-                        pesel.getText().toString().toLowerCase(),
-                        daySpiner.getSelectedItem().toString(),
-                        monthSpiner.getSelectedItem().toString(),
-                        yearSpiner.getSelectedItem().toString(),
-                        address.getText().toString().toLowerCase(),
-                        email.getText().toString().toLowerCase(),
-                        phone.getText().toString().toLowerCase());
-                if(result!=-1)
-                    Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EditPatient.this, MainActivity.class);
-                startActivity(intent);
+                if(isNotEmpty(name.getText().toString(),
+                        surname.getText().toString(),
+                        pesel.getText().toString(),
+                        address.getText().toString(),
+                        email.getText().toString(),
+                        phone.getText().toString())) {
+                    long result = dbHelper.updatePatientTable(id, name.getText().toString().toLowerCase(),
+                            surname.getText().toString().toLowerCase(),
+                            pesel.getText().toString().toLowerCase(),
+                            daySpiner.getSelectedItem().toString(),
+                            monthSpiner.getSelectedItem().toString(),
+                            yearSpiner.getSelectedItem().toString(),
+                            address.getText().toString().toLowerCase(),
+                            email.getText().toString().toLowerCase(),
+                            phone.getText().toString().toLowerCase());
+                    if (result != -1)
+                        Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(EditPatient.this, MainActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -145,5 +154,49 @@ public class EditPatient extends AppCompatActivity {
         builder.setTitle("Notatki");
         builder.setMessage(message);
         builder.show();
+    }
+
+    //check if fields are fill correct
+    public boolean isNotEmpty(String name, String surname, String pesel, String address, String email, String phone){
+
+        if(name.equals("") || name == null){
+            Toast.makeText(this, "Wpisz imie.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(surname.equals("") || surname == null){
+            Toast.makeText(this, "Wpisz nazwisko.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(pesel.equals("") || pesel == null || pesel.length()<11){
+            Toast.makeText(this, "Wpisz pesel.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(address.equals("") || address == null){
+            Toast.makeText(this, "Wpisz adress.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(email.equals("") || email == null || !email.contains("@")){
+            Toast.makeText(this, "Wpisz email.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(phone.equals("") || phone == null){
+            Toast.makeText(this, "Wpisz numer telefonu.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(daySpiner.getSelectedItem().toString()=="Dzień urodzenia"){
+            Toast.makeText(this, "Wybierz dzień urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(monthSpiner.getSelectedItem().toString()=="Miesiąc urodzenia"){
+            Toast.makeText(this, "Wybierz miesiąc urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else if(yearSpiner.getSelectedItem().toString()=="Rok urodzenia"){
+            Toast.makeText(this, "Wybierz rok urodzenia.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 }

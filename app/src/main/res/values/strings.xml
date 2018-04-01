@@ -11,6 +11,7 @@
     <string name="noappoint">Brak wizyt!</string>
 
     <string-array name="monthArray">
+        <item>Miesiąc urodzenia</item>
         <item>Styczeń</item>
         <item>Luty</item>
         <item>Marzec</item>
