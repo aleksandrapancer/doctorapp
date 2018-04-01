@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="15dp"
     android:orientation="vertical"
     tools:context="com.example.bodzio.doctorapp.AddPatient">
 
@@ -14,68 +15,108 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Imię" />
+
     <EditText
         android:id="@+id/nameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Imie"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nazwisko" />
 
     <EditText
         android:id="@+id/surnameField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Nazwisko"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pesel" />
 
     <EditText
         android:id="@+id/peselField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Pesel"
         android:inputType="number"
         android:maxLength="11" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data urodzenia" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
     <Spinner
         android:id="@+id/spinerDay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="110dp"
+        android:layout_height="46dp"
+        android:layout_gravity="left" />
 
     <Spinner
         android:id="@+id/spinerMonth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="110dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center" />
 
     <Spinner
         android:id="@+id/spinerYear"
+        android:layout_width="110dp"
+        android:layout_height="46dp"
+        android:gravity="right"
+        android:layout_gravity="right" />
+
+        </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Adres" />
 
     <EditText
         android:id="@+id/addressField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Adres"
         android:inputType="textPersonName" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email" />
 
     <EditText
         android:id="@+id/emailField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email"
         android:inputType="textEmailAddress" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Telefon" />
 
     <EditText
         android:id="@+id/phoneField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Telefon"
         android:inputType="phone" />
 
     <Button

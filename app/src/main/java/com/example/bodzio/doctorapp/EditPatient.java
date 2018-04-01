@@ -19,7 +19,7 @@ import java.util.Calendar;
 public class EditPatient extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
-    EditText name, surname, pesel, birthData, address, email, phone;
+    EditText name, surname, pesel, address, email, phone;
     Button editButton, deleteButton, showNotesButton;
     Spinner daySpiner, monthSpiner, yearSpiner;
 
@@ -39,7 +39,6 @@ public class EditPatient extends AppCompatActivity {
         yearSpiner = findViewById(R.id.spinerYear);
 
         ArrayList<String> days = new ArrayList<String>();
-        days.add("Dzień urodzenia");
         for (int i = 1; i <= 31; i++) {
             days.add(Integer.toString(i));
         }
@@ -52,8 +51,7 @@ public class EditPatient extends AppCompatActivity {
 
         ArrayList<String> year = new ArrayList<String>();
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        year.add("Rok urodzenia");
-        for (int i = 1900; i <= thisYear; i++) {
+        for (int i = thisYear; i >= 1900; i--) {
             year.add(Integer.toString(i));
         }
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, year);
@@ -179,20 +177,8 @@ public class EditPatient extends AppCompatActivity {
             Toast.makeText(this, "Wpisz email.", Toast.LENGTH_LONG).show();
             return false;
         }
-        else if(phone.equals("") || phone == null){
+        else if(phone.equals("") || phone == null) {
             Toast.makeText(this, "Wpisz numer telefonu.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if(daySpiner.getSelectedItem().toString()=="Dzień urodzenia"){
-            Toast.makeText(this, "Wybierz dzień urodzenia.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if(monthSpiner.getSelectedItem().toString()=="Miesiąc urodzenia"){
-            Toast.makeText(this, "Wybierz miesiąc urodzenia.", Toast.LENGTH_LONG).show();
-            return false;
-        }
-        else if(yearSpiner.getSelectedItem().toString()=="Rok urodzenia"){
-            Toast.makeText(this, "Wybierz rok urodzenia.", Toast.LENGTH_LONG).show();
             return false;
         }
         else {
