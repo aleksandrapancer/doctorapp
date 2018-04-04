@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.DatePicker;
 import android.app.Dialog;
+import android.widget.Toast;
+
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -39,5 +42,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         tv.setText(tv.getText() + "\n\nFormatted date: " + stringOfDate);
     }
 
-    public long getDate(){   return pickedDate; }
+    public long getDate(){
+        return pickedDate; }
 }
