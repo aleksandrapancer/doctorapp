@@ -266,16 +266,15 @@ public class DatabaseManager {
     //app table
     public ArrayList<AppModel> getDataByDateApp(long visitDate){
         Date fullTime = new Date(visitDate);
-        int month2 = fullTime.getMonth();
         java.util.Calendar c = java.util.Calendar.getInstance();
         c.setTimeInMillis(visitDate);
         int day = c.get(java.util.Calendar.DAY_OF_MONTH);
-        int month = c.get(Calendar.MONTH) + 1;
+        int month = fullTime.getMonth();
         int year = c.get(java.util.Calendar.YEAR);
         ArrayList<AppModel> list = new ArrayList<>();
         String sql = "SELECT * FROM " + APP_TABLE +
                 " WHERE " +
-                "strftime('%d%m%Y', "+ appointmentDate +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month2 + 1,year)+"'";
+                "strftime('%d%m%Y', "+ appointmentDate +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month + 1,year)+"'";
         Cursor res = mDb.rawQuery(sql, null);
         while (res.moveToNext()){
             list.add((new AppModel(res.getInt(0), res.getString(1), res.getString(2),
@@ -283,6 +282,44 @@ public class DatabaseManager {
         }
 
         return list;
+    }
+
+    //get names of all patients visit with alert
+    public String getNameWitchAppointmentNotification(){
+        ArrayList<AppModel> list = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        long date = calendar.getTimeInMillis();
+
+        Date fullTime = new Date(date);
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(date);
+        int day = c.get(java.util.Calendar.DAY_OF_MONTH);
+        int month = fullTime.getMonth();
+        int year = c.get(java.util.Calendar.YEAR);
+        String sql = "SELECT * FROM " + APP_TABLE +
+                " WHERE " +
+                "strftime('%d%m%Y', "+ appointmentDate +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month + 1,year)+"'"
+                + " AND " + appointmentSetAlert + " = '1'";
+        Cursor res = mDb.rawQuery(sql, null);
+
+        while (res.moveToNext()){
+            list.add(new AppModel(res.getString(1), res.getString(2)));
+        }
+
+        String notification = "";
+        int sizeOfTheList = list.size();
+
+        if(sizeOfTheList!=0) {
+            notification = "Witaj dzisiaj masz powiadomienia o wizycie: ";
+            for (int i = 0; i < list.size(); i++) {
+                notification = notification + list.get(i).getName() + " " + list.get(i).getSurname() + ", ";
+            }
+        }
+        else{
+            notification = "Witaj dzisaij nie masz powiadomień o wizytach.";
+        }
+        return notification;
     }
 
     //method for searching appointments by date selected in calendar

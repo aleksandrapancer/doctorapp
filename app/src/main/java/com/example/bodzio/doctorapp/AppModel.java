@@ -32,6 +32,11 @@ public class AppModel {
         this.pesel = pesel;
     }
 
+    public AppModel(String name,  String surname){
+        this.name = name;
+        this.surname = surname;
+    }
+
     public int getId() {
         return id;
     }

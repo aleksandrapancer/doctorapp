@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.bodzio.doctorapp">
 
     <uses-sdk android:minSdkVersion="14" />
@@ -9,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
@@ -32,6 +34,18 @@
         <activity android:name=".EditPatient" />
         <activity android:name=".ShowVisits" />
         <activity android:name=".AddNotes" />
+
+        <receiver
+            android:name=".MyReceiver"
+            android:enabled="true"
+            android:exported="false" >
+        </receiver>
+
+        <service
+            android:name=".MyNewIntentService"
+            android:exported="false" >
+        </service>
+
     </application>
 
 </manifest>
