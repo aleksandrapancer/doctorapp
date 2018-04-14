@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 (getApplicationContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                1000 * 60 * 60 * 24, pendingIntent);
+                86400000, pendingIntent);
     }
 
 

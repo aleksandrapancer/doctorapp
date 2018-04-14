@@ -29,6 +29,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //format for saving in database
         Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
         pickedDate = calendar.getTimeInMillis();
 
         //format for displaying in activity
