@@ -21,6 +21,7 @@ public class MyNewIntentService extends IntentService {
 
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Wizyty");
+        builder.setStyle(new Notification.BigTextStyle().bigText(dbHelper.getNameWitchAppointmentNotification()));
         builder.setContentText(dbHelper.getNameWitchAppointmentNotification());
         builder.setSmallIcon(R.drawable.mail);
         Intent notifyIntent = new Intent(this, MainActivity.class);

@@ -172,7 +172,6 @@ public class DatabaseManager {
         contentValues.put(patientPhone, phone);
 
         return mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
-        //Log.d("Logcat", "update patient table - success");
     }
 
     public long updateVisitTable(String pesel, String note){
