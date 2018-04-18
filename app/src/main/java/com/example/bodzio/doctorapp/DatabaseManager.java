@@ -283,6 +283,30 @@ public class DatabaseManager {
         return list;
     }
 
+
+
+    //app table ---- calendarview
+    public ArrayList<AppModel> getDataByPickedDate(long appointmentDate){
+        Date fullTime = new Date(appointmentDate);
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(appointmentDate);
+        int day = c.get(java.util.Calendar.DAY_OF_MONTH);
+        int month = fullTime.getMonth();
+        int year = c.get(java.util.Calendar.YEAR);
+        ArrayList<AppModel> list = new ArrayList<>();
+        String sql = "SELECT * FROM " + APP_TABLE +
+                " WHERE " +
+                "strftime('%d%m%Y', "+ appointmentDate +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month + 1,year)+"'";
+        Cursor res = mDb.rawQuery(sql, null);
+        while (res.moveToNext()){
+            list.add((new AppModel(res.getInt(0), res.getString(1), res.getString(2),
+                    res.getString(3), res.getString(4))));
+        }
+
+        return list;
+    }
+
+
     //get names of all patients visit with alert
     public String getNameWitchAppointmentNotification(){
         ArrayList<AppModel> list = new ArrayList<>();

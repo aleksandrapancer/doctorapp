@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -14,6 +15,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 import static com.example.bodzio.doctorapp.R.id.calendarView;
@@ -28,6 +30,9 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
 
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private static final int color = Color.parseColor("#a50029");
+
+    ListView listView = findViewById(R.id.listView);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,6 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
         dbHelper.open();
 
         dates = getAppointmentsDates();
-        //Toast.makeText(this, dates.toString(), Toast.LENGTH_LONG).show();
-
         widget.addDecorators(
                 new HighlightWeekendsDecorator(),
                 oneDayDecorator,
@@ -61,6 +64,15 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
         int day = date.getDay();
         int month = date.getMonth();
         int year = date.getYear();
+
+        Calendar c = Calendar.getInstance();
+        c.set(year,month,day);
+        long pickedDate = c.getTimeInMillis();
+
+        //show list of patients who have appointment
+        final ArrayList<AppModel> appList = dbHelper.getDataByPickedDate(pickedDate);
+        AppointmentsAdapter adapter = new AppointmentsAdapter(this, appList);
+        listView.setAdapter(adapter);
     }
 
 
