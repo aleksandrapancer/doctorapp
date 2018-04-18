@@ -1,9 +1,12 @@
 package com.example.bodzio.doctorapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -14,13 +17,17 @@ import java.util.Calendar;
 
 
 import static com.example.bodzio.doctorapp.R.id.calendarView;
+import static com.prolificinteractive.materialcalendarview.CalendarDay.from;
 
 public class AppointmentCalendar extends AppCompatActivity implements OnDateSelectedListener {
 
     MaterialCalendarView widget;
     private DatabaseManager dbHelper;
-    ArrayList<CalendarDay> dates;
+    private ArrayList<CalendarDay> dates = new ArrayList<>();
+    // CalendarDay day = new CalendarDay(2018,3,20);
+
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+    private static final int color = Color.parseColor("#a50029");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +44,23 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
         dbHelper.open();
 
         dates = getAppointmentsDates();
+        //Toast.makeText(this, dates.toString(), Toast.LENGTH_LONG).show();
 
         widget.addDecorators(
                 new HighlightWeekendsDecorator(),
                 oneDayDecorator,
-                new EventDecorator(R.color.blue,dates)
+                new EventDecorator(color,dates)
         );
     }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        oneDayDecorator.setDate(date.getDate());
+        widget.invalidateDecorators();
+
         int day = date.getDay();
         int month = date.getMonth();
         int year = date.getYear();
-
-        oneDayDecorator.setDate(date.getDate());
-        widget.invalidateDecorators();
     }
 
 
@@ -64,12 +72,7 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
         while (cursor.moveToNext()){
             long dateInMilis = cursor.getLong(0);
             c.setTimeInMillis(dateInMilis);
-            //Date time = c.getTime();
-            int year = c.YEAR;
-            int month = c.MONTH;
-            int day = c.DAY_OF_MONTH;
-
-            CalendarDay date = new CalendarDay(year,month,day);
+            CalendarDay date = CalendarDay.from(c);
             appointmentCollection.add(date);
         }
 

@@ -8,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -25,7 +24,6 @@ public class AppointmentCreator extends AppCompatActivity {
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
-
     }
 
     public void pickDate(View v){
@@ -81,13 +79,6 @@ public class AppointmentCreator extends AppCompatActivity {
                 Toast.makeText(this, getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
             }
             long j = dbHelper.insertVisitTab(pesel);
-/*
-            if (j!=-1){
-                Toast.makeText(this, "Stworzono wizyty", Toast.LENGTH_LONG).show();
-            }else {
-                Toast.makeText(this, "Nie stworzono wizyty", Toast.LENGTH_LONG).show();
-            }
-*/
         }
     }
 }
