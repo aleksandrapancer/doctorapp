@@ -13,7 +13,6 @@ import java.util.*;
 import java.util.Calendar;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseManager {
 
@@ -286,12 +285,11 @@ public class DatabaseManager {
 
 
     //app table ---- calendarview
-    public ArrayList<AppModel> getDataByPickedDate(long appointmentDate){
-        Date fullTime = new Date(appointmentDate);
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(appointmentDate);
+    public ArrayList<AppModel> getDataByPickedDate(long appDate){
+        java.util.Calendar c = java.util.Calendar.getInstance();
+        c.setTimeInMillis(appDate);
         int day = c.get(java.util.Calendar.DAY_OF_MONTH);
-        int month = fullTime.getMonth();
+        int month = c.get(java.util.Calendar.MONTH);
         int year = c.get(java.util.Calendar.YEAR);
         ArrayList<AppModel> list = new ArrayList<>();
         String sql = "SELECT * FROM " + APP_TABLE +
@@ -310,7 +308,6 @@ public class DatabaseManager {
     //get names of all patients visit with alert
     public String getNameWitchAppointmentNotification(){
         ArrayList<AppModel> list = new ArrayList<>();
-
         Calendar calendar = Calendar.getInstance();
         long date = calendar.getTimeInMillis();
 

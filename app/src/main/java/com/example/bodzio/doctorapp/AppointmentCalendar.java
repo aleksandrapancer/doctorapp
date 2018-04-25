@@ -19,6 +19,7 @@ import java.util.List;
 
 
 import static com.example.bodzio.doctorapp.R.id.calendarView;
+import static com.example.bodzio.doctorapp.R.id.spinerYear;
 import static com.prolificinteractive.materialcalendarview.CalendarDay.from;
 
 public class AppointmentCalendar extends AppCompatActivity implements OnDateSelectedListener {
@@ -26,27 +27,26 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
     MaterialCalendarView widget;
     private DatabaseManager dbHelper;
     private ArrayList<CalendarDay> dates = new ArrayList<>();
-    // CalendarDay day = new CalendarDay(2018,3,20);
 
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private static final int color = Color.parseColor("#a50029");
 
-    ListView listView = findViewById(R.id.listView);
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_calendar);
+
+        dbHelper = new DatabaseManager(this);
+        dbHelper.open();
+
+
         widget = findViewById(calendarView);
         widget.setOnDateChangedListener(this);
         widget.setShowOtherDates(MaterialCalendarView.SHOW_ALL);
 
         Calendar instance = Calendar.getInstance();
         widget.setSelectedDate(instance.getTime());
-
-        dbHelper = new DatabaseManager(this);
-        dbHelper.open();
 
         dates = getAppointmentsDates();
         widget.addDecorators(
@@ -61,15 +61,11 @@ public class AppointmentCalendar extends AppCompatActivity implements OnDateSele
         oneDayDecorator.setDate(date.getDate());
         widget.invalidateDecorators();
 
-        int day = date.getDay();
-        int month = date.getMonth();
-        int year = date.getYear();
-
         Calendar c = Calendar.getInstance();
-        c.set(year,month,day);
+        c.setTime(date.getDate());
         long pickedDate = c.getTimeInMillis();
 
-        //show list of patients who have appointment
+        ListView listView = findViewById(R.id.listViewApp);
         final ArrayList<AppModel> appList = dbHelper.getDataByPickedDate(pickedDate);
         AppointmentsAdapter adapter = new AppointmentsAdapter(this, appList);
         listView.setAdapter(adapter);
