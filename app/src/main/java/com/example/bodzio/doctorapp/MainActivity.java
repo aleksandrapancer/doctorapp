@@ -5,8 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -15,15 +18,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent notifyIntent = new Intent(this,MyReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (getApplicationContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
-                86400000, pendingIntent);
     }
-
 
     public void openCalendar(View view) {
         Intent intent = new Intent(this,  AppointmentCalendar.class);
@@ -40,11 +35,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    public void addNotes(View view) {
-        Intent intent = new Intent(this,  AddNotes.class);
-        startActivity(intent);
-    }
     public void showPatients(View view) {
         Intent intent = new Intent(this,  ShowPatients.class);
         startActivity(intent);
@@ -55,5 +45,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void SetNotification() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MINUTE, 55);
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+
+
+        Intent notifyIntent = new Intent(this, MyReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getApplicationContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                86400000, pendingIntent);
+    }
 
 }
