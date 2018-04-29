@@ -18,7 +18,7 @@ public class CustomUserAdapter extends ArrayAdapter<Model>{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_custom, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_custom_user, parent, false);
         }
 
         Model user = getItem(position);
