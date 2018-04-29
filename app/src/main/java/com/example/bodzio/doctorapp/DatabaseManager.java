@@ -185,7 +185,6 @@ public class DatabaseManager {
         int e=cursor.getCount();
 
         return mDb.update(VISIT_TABLE, contentValues, visitPatientPesel + "= " + pesel, null);
-        //  Log.d("Logcat", "update visit table - success");
     }
 
 
@@ -277,7 +276,7 @@ public class DatabaseManager {
         Cursor res = mDb.rawQuery(sql, null);
         while (res.moveToNext()){
             list.add((new AppModel(res.getInt(0), res.getString(1), res.getString(2),
-                    res.getString(3), res.getString(4))));
+                    res.getString(3), res.getString(4), res.getString(5), res.getString(6))));
         }
 
         return list;
@@ -312,11 +311,11 @@ public class DatabaseManager {
         if(sizeOfTheList!=0) {
             notification = "Witaj dzisiaj masz powiadomienia o wizycie: ";
             for (int i = 0; i < list.size(); i++) {
-                notification = notification + list.get(i).getName() + " " + list.get(i).getSurname() + ", ";
+                notification = notification + list.get(i).getName() + " " + list.get(i).getSurname() + "  ";
             }
         }
         else{
-            notification = "Witaj dzisaij nie masz powiadomień o wizytach.";
+            notification = "Witaj dzisiaj nie masz powiadomień o wizytach.";
         }
         return notification;
     }

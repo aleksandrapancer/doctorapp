@@ -25,6 +25,15 @@ public class AppModel {
         this.pesel = pesel;
         this.date = date;
     }
+    public AppModel(int id, String name,  String surname, String pesel, String date, String hour, String minute){
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.pesel = pesel;
+        this.date = date;
+        this.hour = hour;
+        this.minute = minute;
+    }
 
     public AppModel(String name,  String surname, String pesel){
         this.name = name;

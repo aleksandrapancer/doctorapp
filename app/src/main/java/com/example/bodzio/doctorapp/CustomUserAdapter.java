@@ -24,9 +24,7 @@ public class CustomUserAdapter extends ArrayAdapter<Model>{
         Model user = getItem(position);
 
         TextView name = (TextView) convertView.findViewById(R.id.textName);
-        TextView surname = (TextView) convertView.findViewById(R.id.textSurname);
-        name.setText(user.getName());
-        surname.setText(user.getSurname());
+        name.setText(user.getName() + " " + user.getSurname());
         return convertView;
     }
 }
