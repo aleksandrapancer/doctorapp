@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public void openAppointmentCreator(View view) {
         Intent intent = new Intent(this,  AppointmentCreator.class);
         startActivity(intent);
+        SetNotification();
     }
 
     public void addPatient(View view) {
@@ -47,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void SetNotification() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MINUTE, 55);
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 10);
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
 
 
         Intent notifyIntent = new Intent(this, MyReceiver.class);
