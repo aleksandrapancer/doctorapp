@@ -106,8 +106,7 @@ public class EditPatient extends AppCompatActivity {
                         Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
                     else
                         Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(EditPatient.this, MainActivity.class);
-                    startActivity(intent);
+                        EditPatient.super.onBackPressed();
                 }
             }
         });

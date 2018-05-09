@@ -57,8 +57,7 @@ public class AddNotes extends AppCompatActivity {
                 else
                     Toast.makeText(AddNotes.this, "Notatka nie została dodana!", Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(AddNotes.this, MainActivity.class);
-                startActivity(intent);
+                AddNotes.super.onBackPressed();
             }
         });
     }
