@@ -79,7 +79,7 @@ public class EditPatient extends AppCompatActivity {
         yearSpiner.setSelection(yearPosition, true);
         address.setText(patientList.get(0).getAddress());
         email.setText(patientList.get(0).getEmail());
-        phone.setText(String.valueOf(patientList.get(0).getPhone()));
+        phone.setText(patientList.get(0).getPhone());
 
         deleteButton = findViewById(R.id.deleteButton);
         editButton = findViewById(R.id.editButton);

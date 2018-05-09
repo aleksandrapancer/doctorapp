@@ -11,9 +11,9 @@ public class Model {
     private String year;
     private String address;
     private String email;
-    private int phone;
+    private String phone;
 
-    public Model(int id, String name, String surname, String pesel, String day, String month, String year, String address, String email, int phone) {
+    public Model(int id, String name, String surname, String pesel, String day, String month, String year, String address, String email, String phone) {
         this.Id = id;
         this.name = name;
         this.surname = surname;
@@ -26,7 +26,7 @@ public class Model {
         this.phone = phone;
     }
 
-    public Model(String name, String surname, String pesel, String day, String month, String year, String address, String email, int phone) {
+    public Model(String name, String surname, String pesel, String day, String month, String year, String address, String email, String phone) {
         this.name = name;
         this.surname = surname;
         this.pesel = pesel;
@@ -82,7 +82,7 @@ public class Model {
         return email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 }

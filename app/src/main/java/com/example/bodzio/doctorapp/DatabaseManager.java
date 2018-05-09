@@ -201,7 +201,7 @@ public class DatabaseManager {
         while (res.moveToNext()){
             list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
                     res.getString(3), res.getString(4), res.getString(5),
-                    res.getString(6), res.getString(7), res.getString(8), res.getInt(9))));
+                    res.getString(6), res.getString(7), res.getString(8), res.getString(9))));
         }
 
         return list;
@@ -233,7 +233,7 @@ public class DatabaseManager {
         while (res.moveToNext()){
             list.add((new Model(res.getInt(0), res.getString(1), res.getString(2),
                     res.getString(3), res.getString(4), res.getString(5),
-                    res.getString(6), res.getString(7), res.getString(8), res.getInt(9))));        }
+                    res.getString(6), res.getString(7), res.getString(8), res.getString(9))));        }
 
         return list;
     }
