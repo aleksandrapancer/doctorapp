@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="15dp"
+    android:orientation="vertical"
+    tools:context="com.example.bodzio.doctorapp.AddPatient">
+
+
+    <LinearLayout
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:onClick="editPatient"
+        android:text="Edytuj" />
+
+    <Button
+        android:id="@+id/showNotesButton"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="Pokaz notatki" />
+
+    <Button
+        android:id="@+id/showVisitButton"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="Pokaz wizyty" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:text="Usuń" />
+
+</LinearLayout>
+
+

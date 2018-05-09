@@ -360,5 +360,10 @@ public class DatabaseManager {
         return res;
     }
 
+    public Cursor getAllVisitForPatient(String pesel) {
+        Cursor res =  mDb.rawQuery( "SELECT * FROM "+ APP_TABLE +" WHERE " + appointmentPesel + " = '" + pesel + "'", null );
+        return res;
+    }
+
 
 }

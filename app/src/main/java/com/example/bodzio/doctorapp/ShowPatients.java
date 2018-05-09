@@ -55,7 +55,7 @@ public class ShowPatients extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                int idFromList = customerList.get(position).getId();
                idOfPatient = idFromList;
-                Intent intent = new Intent(ShowPatients.this, EditPatient.class);
+                Intent intent = new Intent(ShowPatients.this, PatientData.class);
                 startActivity(intent);
             }
         });
@@ -87,11 +87,12 @@ public class ShowPatients extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int idFromList = customerListFilter.get(position).getId();
                 idOfPatient = idFromList;
-                Intent intent = new Intent(ShowPatients.this, EditPatient.class);
+                Intent intent = new Intent(ShowPatients.this, PatientData.class);
                 startActivity(intent);
             }
         });
     }
+
     public void addPatient(View view) {
         Intent intent = new Intent(ShowPatients.this,  AddPatient.class);
         startActivity(intent);

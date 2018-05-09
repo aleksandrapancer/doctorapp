@@ -34,6 +34,7 @@
         <activity android:name=".EditPatient" />
         <activity android:name=".ShowVisits" />
         <activity android:name=".AddNotes" />
+        <activity android:name=".PatientData" />
 
         <receiver
             android:name=".MyReceiver"

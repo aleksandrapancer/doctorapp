@@ -30,14 +30,14 @@ public class CustomVisitAdapter extends ArrayAdapter<AppModel>{
 
         name.setText(user.getName() + " " + user.getSurname());
 
-       if(user.getMinute().length()==1){
-           time.setText(user.getHour() + " : 0" + user.getMinute());
+        if(user.getHour().length()==1 && user.getMinute().length()==1){
+            time.setText("0"+user.getHour() + " : 0" + user.getMinute());
        }
        else if(user.getHour().length()==1){
            time.setText("0"+user.getHour() + " : " + user.getMinute());
        }
-       else if(user.getHour().length()==1 || user.getMinute().length()==1){
-           time.setText("0"+user.getHour() + " : 0" + user.getMinute());
+       else if(user.getMinute().length()==1){
+            time.setText(user.getHour() + " : 0" + user.getMinute());
        }
        else
            time.setText(user.getHour() + " : " + user.getMinute());

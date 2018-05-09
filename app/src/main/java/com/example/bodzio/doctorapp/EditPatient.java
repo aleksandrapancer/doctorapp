@@ -20,7 +20,7 @@ public class EditPatient extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
     EditText name, surname, pesel, address, email, phone;
-    Button editButton, deleteButton, showNotesButton;
+    Button editButton;
     Spinner daySpiner, monthSpiner, yearSpiner;
 
     @Override
@@ -81,19 +81,7 @@ public class EditPatient extends AppCompatActivity {
         email.setText(patientList.get(0).getEmail());
         phone.setText(patientList.get(0).getPhone());
 
-        deleteButton = findViewById(R.id.deleteButton);
         editButton = findViewById(R.id.editButton);
-        showNotesButton = findViewById(R.id.showNotesButton);
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dbHelper.deleteData(id);
-                Toast.makeText(EditPatient.this, "Dane zostały usunięte!", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(EditPatient.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
         //update the table
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -123,35 +111,6 @@ public class EditPatient extends AppCompatActivity {
                 }
             }
         });
-
-        //show patient notes
-        showNotesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Cursor res = dbHelper.getNotesByPeselVisit(pesel.getText().toString());
-                if(res.getCount()==0){
-                    showMessage("Nie ma w bazie notatek");
-                    return;
-                }
-                StringBuffer buffer = new StringBuffer();
-                while (res.moveToNext()){
-                    buffer.append(res.getString(2)+"\n\n");
-                }
-                showMessage(buffer.toString());
-
-            }
-        });
-
-    }
-
-    //chreate message whit notes
-    public void showMessage(String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle("Notatki");
-        builder.setMessage(message);
-        builder.show();
     }
 
     //check if fields are fill correct
