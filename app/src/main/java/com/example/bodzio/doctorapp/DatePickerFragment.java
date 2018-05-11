@@ -32,15 +32,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         calendar.set(year, month, day);
         pickedDate = calendar.getTimeInMillis();
 
-        //format for displaying in activity
-        TextView tv = getActivity().findViewById(R.id.tv);
-        tv.setText("Date changed...");
-        tv.setText(tv.getText() + "\nYear: " + year);
-        tv.setText(tv.getText() + "\nMonth: " + month);
-        tv.setText(tv.getText() + "\nDay of Month: " + day);
-
-        String stringOfDate = day + "/" + month + "/" + year;
-        tv.setText(tv.getText() + "\n\nFormatted date: " + stringOfDate);
     }
 
     public long getDate(){

@@ -141,7 +141,7 @@
                 <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/circleblue"
+                    android:background="@drawable/circlepurple"
                     android:padding="10dp"
                     android:src="@drawable/ic_folder_shared_black_24dp" />
 
@@ -188,7 +188,7 @@
                 <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp"
-                    android:background="@drawable/circlepurple"
+                    android:background="@drawable/circleyellow"
                     android:padding="10dp"
                     android:src="@drawable/ic_control_point_black_24dp" />
 

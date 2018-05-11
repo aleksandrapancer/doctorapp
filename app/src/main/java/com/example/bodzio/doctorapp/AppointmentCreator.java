@@ -47,7 +47,7 @@ public class AppointmentCreator extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
         Date d = c.getTime();
-        Toast.makeText(this, "" + d, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "" + d, Toast.LENGTH_LONG).show();
 
         EditText nameIn = findViewById(R.id.nameText);
         EditText surnameIn = findViewById(R.id.surnameText);
@@ -79,6 +79,10 @@ public class AppointmentCreator extends AppCompatActivity {
                 Toast.makeText(this, getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
             }
             long j = dbHelper.insertVisitTab(pesel);
+
+            nameIn.setText("");
+            surnameIn.setText("");
+            peselIn.setText("");
         }
     }
 }

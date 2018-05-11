@@ -19,7 +19,6 @@ public class AddPatient extends AppCompatActivity {
     private DatabaseManager dbHelper;
 
     EditText name, surname, pesel, address, email, phone;
-    Button addButton;
     Spinner daySpiner, monthSpiner, yearSpiner;
 
     @Override
@@ -61,7 +60,6 @@ public class AddPatient extends AppCompatActivity {
                 address = findViewById(R.id.addressField);
                 email = findViewById(R.id.emailField);
                 phone = findViewById(R.id.phoneField);
-                addButton = findViewById(R.id.addButton);
 
                 //check if all the fields are fill correct
         if(isNotEmpty(name.getText().toString(),
@@ -85,7 +83,7 @@ public class AddPatient extends AppCompatActivity {
                 Log.d("Logcat", "insert patient table - success");
 
                 if (i != -1) {
-                    Toast.makeText(this, "Zapisano pacjeta", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Zapisano pacjenta", Toast.LENGTH_LONG).show();
                     super.onBackPressed();
                 } else {
                     Toast.makeText(this, "Błąd zapisu", Toast.LENGTH_LONG).show();
@@ -101,27 +99,27 @@ public class AddPatient extends AppCompatActivity {
     public boolean isNotEmpty(String name, String surname, String pesel, String address, String email, String phone){
 
         if(name.equals("") || name == null){
-            Toast.makeText(this, "Wpisz imie.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj imię", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(surname.equals("") || surname == null){
-            Toast.makeText(this, "Wpisz nazwisko.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj nazwisko", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(pesel.equals("") || pesel == null || pesel.length()<11){
-            Toast.makeText(this, "Wpisz pesel.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj pesel", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(address.equals("") || address == null){
-            Toast.makeText(this, "Wpisz adress.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj adress", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(email.equals("") || email == null || !email.contains("@")){
-            Toast.makeText(this, "Wpisz email.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj email", Toast.LENGTH_LONG).show();
             return false;
         }
         else if(phone.equals("") || phone == null){
-            Toast.makeText(this, "Wpisz numer telefonu.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Podaj numer telefonu", Toast.LENGTH_LONG).show();
             return false;
         }
         else {

@@ -20,8 +20,8 @@ public class EditPatient extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
     EditText name, surname, pesel, address, email, phone;
-    Button editButton;
     Spinner daySpiner, monthSpiner, yearSpiner;
+    final int id =ShowPatients.idOfPatient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class EditPatient extends AppCompatActivity {
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
-        final int id =ShowPatients.idOfPatient;
+
         ArrayList<Model> patientList = dbHelper.getDataByIdPatient(id);
 
         //show spinners
@@ -81,35 +81,32 @@ public class EditPatient extends AppCompatActivity {
         email.setText(patientList.get(0).getEmail());
         phone.setText(patientList.get(0).getPhone());
 
-        editButton = findViewById(R.id.editButton);
+    }
 
-        //update the table
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isNotEmpty(name.getText().toString(),
-                        surname.getText().toString(),
-                        pesel.getText().toString(),
-                        address.getText().toString(),
-                        email.getText().toString(),
-                        phone.getText().toString())) {
-                    long result = dbHelper.updatePatientTable(id, name.getText().toString().toLowerCase(),
-                            surname.getText().toString().toLowerCase(),
-                            pesel.getText().toString().toLowerCase(),
-                            daySpiner.getSelectedItem().toString(),
-                            monthSpiner.getSelectedItem().toString(),
-                            yearSpiner.getSelectedItem().toString(),
-                            address.getText().toString().toLowerCase(),
-                            email.getText().toString().toLowerCase(),
-                            phone.getText().toString().toLowerCase());
-                    if (result != -1)
-                        Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
-                    else
-                        Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
-                        EditPatient.super.onBackPressed();
-                }
-            }
-        });
+
+    //update the table
+    public void add(View v){
+        if(isNotEmpty(name.getText().toString(),
+                surname.getText().toString(),
+                pesel.getText().toString(),
+                address.getText().toString(),
+                email.getText().toString(),
+                phone.getText().toString())) {
+            long result = dbHelper.updatePatientTable(id, name.getText().toString().toLowerCase(),
+                    surname.getText().toString().toLowerCase(),
+                    pesel.getText().toString().toLowerCase(),
+                    daySpiner.getSelectedItem().toString(),
+                    monthSpiner.getSelectedItem().toString(),
+                    yearSpiner.getSelectedItem().toString(),
+                    address.getText().toString().toLowerCase(),
+                    email.getText().toString().toLowerCase(),
+                    phone.getText().toString().toLowerCase());
+            if (result != -1)
+                Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
+            EditPatient.super.onBackPressed();
+        }
     }
 
     //check if fields are fill correct

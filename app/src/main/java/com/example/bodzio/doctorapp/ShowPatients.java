@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class ShowPatients extends AppCompatActivity {
 
-    Button showButton;
     private DatabaseManager dbHelper;
     EditText surname, pesel;
     static int idOfPatient;
@@ -31,21 +30,11 @@ public class ShowPatients extends AppCompatActivity {
         dbHelper.open();
 
         showList();
-
-        showButton = findViewById(R.id.filtrButton);
-        showButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFilteredList();
-            }
-        });
-
     }
 
     public void showList(){
 
         ListView listView = findViewById(R.id.listView);
-
         final ArrayList<Model> customerList = dbHelper.getAllDataPatient();
 
         CustomUserAdapter adapter = new CustomUserAdapter(this, customerList);
@@ -61,8 +50,7 @@ public class ShowPatients extends AppCompatActivity {
         });
     }
 
-    public void showFilteredList(){
-
+    public void showFilteredList(View view){
         final ArrayList<Model> customerListFilter;
         ListView listView = findViewById(R.id.listView);
 
@@ -77,7 +65,6 @@ public class ShowPatients extends AppCompatActivity {
             customerListFilter = dbHelper.getDataByPeselPatient(peselText);
         else
             customerListFilter = dbHelper.getDataPatient(surnameText, peselText);
-
 
 
         CustomUserAdapter adapter = new CustomUserAdapter(this, customerListFilter);
@@ -97,4 +84,5 @@ public class ShowPatients extends AppCompatActivity {
         Intent intent = new Intent(ShowPatients.this,  AddPatient.class);
         startActivity(intent);
     }
+
 }
