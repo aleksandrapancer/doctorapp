@@ -92,13 +92,13 @@ public class EditPatient extends AppCompatActivity {
                 address.getText().toString(),
                 email.getText().toString(),
                 phone.getText().toString())) {
-            long result = dbHelper.updatePatientTable(id, name.getText().toString().toLowerCase(),
-                    surname.getText().toString().toLowerCase(),
-                    pesel.getText().toString().toLowerCase(),
+            long result = dbHelper.updatePatientTable(id, name.getText().toString(),
+                    surname.getText().toString(),
+                    pesel.getText().toString(),
                     daySpiner.getSelectedItem().toString(),
                     monthSpiner.getSelectedItem().toString(),
                     yearSpiner.getSelectedItem().toString(),
-                    address.getText().toString().toLowerCase(),
+                    address.getText().toString(),
                     email.getText().toString().toLowerCase(),
                     phone.getText().toString().toLowerCase());
             if (result != -1)

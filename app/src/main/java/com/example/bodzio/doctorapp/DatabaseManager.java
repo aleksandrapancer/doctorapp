@@ -193,6 +193,14 @@ public class DatabaseManager {
     }
 
 
+    public Cursor displayName(int id){
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientID + " = '" + id + "'", null);
+
+        return cursor;
+    }
+
+
+
     //select from tables
     //patient table
     public ArrayList<Model> getAllDataPatient(){
@@ -351,7 +359,6 @@ public class DatabaseManager {
     //visit table
     public Cursor getNotesByPeselVisit(String pesel){
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
-
         return cursor;
     }
 

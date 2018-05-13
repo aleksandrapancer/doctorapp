@@ -71,7 +71,7 @@ public class AddPatient extends AppCompatActivity {
             if(dbHelper.ifPatientNotExist(pesel.getText().toString())) {
 
                 //insert values to database
-                long i = dbHelper.insertPatientTab(name.getText().toString().toLowerCase(),
+                long i = dbHelper.insertPatientTab(name.getText().toString(),
                         surname.getText().toString().toLowerCase(),
                         pesel.getText().toString().toLowerCase(),
                         daySpiner.getSelectedItem().toString(),

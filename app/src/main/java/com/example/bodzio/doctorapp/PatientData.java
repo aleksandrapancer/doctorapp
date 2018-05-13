@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -15,19 +16,27 @@ import java.util.Calendar;
 public class PatientData extends AppCompatActivity{
 
     private DatabaseManager dbHelper;
-    Button editButton, deleteButton, showNotesButton, showVisitButton;
-
     final int id =ShowPatients.idOfPatient;
     ArrayList<Model> patientList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_data);
+        TextView nameView = findViewById(R.id.name);
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
         patientList = dbHelper.getDataByIdPatient(id);
+
+        String name ="";
+
+        Cursor res = dbHelper.displayName(id);
+        if (res.moveToFirst()) {
+             name = res.getString(1) + " " + res.getString(2);
+        }
+        nameView.setText(name);
     }
 
 

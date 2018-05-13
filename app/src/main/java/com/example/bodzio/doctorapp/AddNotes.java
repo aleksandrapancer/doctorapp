@@ -13,7 +13,10 @@ import java.util.Calendar;
 public class AddNotes extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
-    Button addNoteButton;
+    Calendar calendar = Calendar.getInstance();
+    final int d = calendar.get(Calendar.DAY_OF_MONTH);
+    final int m = calendar.get(Calendar.MONTH);
+    final int y = calendar.get(Calendar.YEAR);
     EditText noteText;
     String patientPesel;
 
@@ -26,41 +29,28 @@ public class AddNotes extends AppCompatActivity {
         dbHelper.open();
 
         noteText = findViewById(R.id.notesText);
-        Calendar calendar = Calendar.getInstance();
-        final int d = calendar.get(Calendar.DAY_OF_MONTH);
-        final int m = calendar.get(Calendar.MONTH);
-        final int y = calendar.get(Calendar.YEAR);
-
-
-        //add note to visit table after press the button
-        addNoteButton = findViewById(R.id.addNoteBuuton);
-        addNoteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String date;
-                if(d<10 && m<10){
-                    date = "0"+String.valueOf(d)+".0"+String.valueOf(m)+"."+String.valueOf(y)+"\n";
-                }else if(m<10){
-                    date = String.valueOf(d)+".0"+String.valueOf(m)+"."+String.valueOf(y)+"\n";
-                }else if(d<10){
-                    date = "0"+String.valueOf(d)+"."+String.valueOf(m)+"."+String.valueOf(y)+"\n";
-                }else
-                    date = String.valueOf(d)+"."+String.valueOf(m)+"."+String.valueOf(y)+"\n";
-
-                String note = date+noteText.getText().toString();
-                patientPesel = ShowVisits.patientPesel;
-
-                long result = dbHelper.updateVisitTable(patientPesel, note);
-                if(result!=-1)
-                    Toast.makeText(AddNotes.this, "Notatka została dodana!", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(AddNotes.this, "Notatka nie została dodana!", Toast.LENGTH_LONG).show();
-
-                AddNotes.super.onBackPressed();
-            }
-        });
     }
 
+    public void addNoteToPatient(View v) {
+        String date;
+        if(d<10 && m<10){
+            date = "0"+String.valueOf(d)+".0"+String.valueOf(m)+"."+String.valueOf(y)+"\n";
+        }else if(m<10){
+            date = String.valueOf(d)+".0"+String.valueOf(m)+"."+String.valueOf(y)+"\n";
+        }else if(d<10){
+            date = "0"+String.valueOf(d)+"."+String.valueOf(m)+"."+String.valueOf(y)+"\n";
+        }else
+            date = String.valueOf(d)+"."+String.valueOf(m)+"."+String.valueOf(y)+"\n";
 
+        String note = date+noteText.getText().toString();
+        patientPesel = ShowVisits.patientPesel;
+
+        long result = dbHelper.updateVisitTable(patientPesel, note);
+        if(result!=-1)
+            Toast.makeText(AddNotes.this, "Notatka została dodana!", Toast.LENGTH_LONG).show();
+        else
+            Toast.makeText(AddNotes.this, "Notatka nie została dodana!", Toast.LENGTH_LONG).show();
+
+        AddNotes.super.onBackPressed();
+    }
 }

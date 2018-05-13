@@ -22,9 +22,7 @@ public class AppointmentsAdapter extends ArrayAdapter<AppModel>{
         AppModel user = getItem(position);
 
         TextView name = convertView.findViewById(R.id.textName);
-        TextView surname = convertView.findViewById(R.id.textSurname);
-        name.setText(user.getName());
-        surname.setText(user.getSurname());
+        name.setText(user.getName()+" " +user.getSurname());
         return convertView;
     }
 }
