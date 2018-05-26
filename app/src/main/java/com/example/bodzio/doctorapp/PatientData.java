@@ -19,7 +19,6 @@ public class PatientData extends AppCompatActivity{
     final int id =ShowPatients.idOfPatient;
     ArrayList<Model> patientList = new ArrayList<>();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
