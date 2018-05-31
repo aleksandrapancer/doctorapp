@@ -78,7 +78,12 @@ public class AppointmentCreator extends AppCompatActivity {
             }else {
                 Toast.makeText(this, getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
             }
-            long j = dbHelper.insertVisitTab(pesel);
+            long j = dbHelper.insertVisitTab(pesel, date, hour, minute);
+            if (j!=-1){
+                Toast.makeText(this, "dodano tablice wizyt", Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(this, "nie dodano tablicy vizyt", Toast.LENGTH_LONG).show();
+            }
 
             nameIn.setText("");
             surnameIn.setText("");

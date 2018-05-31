@@ -84,7 +84,8 @@ public class AddPatient extends AppCompatActivity {
 
                 if (i != -1) {
                     Toast.makeText(this, "Zapisano pacjenta", Toast.LENGTH_LONG).show();
-                    super.onBackPressed();
+                    finish();
+                    startActivity(getIntent());
                 } else {
                     Toast.makeText(this, "Błąd zapisu", Toast.LENGTH_LONG).show();
                 }

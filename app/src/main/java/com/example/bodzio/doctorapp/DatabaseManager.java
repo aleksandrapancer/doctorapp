@@ -42,6 +42,9 @@ public class DatabaseManager {
     static final String visitID = "id";
     static final String visitPatientPesel = "pesel";
     static final String visitNotes = "notes";
+    static final String visitData = "data";
+    static final String visitHour = "hour";
+    static final String visitMinute = "minute";
 
     private static final String TAG = "dbManager";
     private DatabaseHelper mDbHelper;
@@ -68,7 +71,8 @@ public class DatabaseManager {
 
     private static final String VISIT_PATIENT_TABLE_CREATE =
             "CREATE TABLE IF NOT EXISTS "+VISIT_TABLE+" ("+visitID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                    visitPatientPesel+ " TEXT,"+visitNotes+" TEXT, FOREIGN KEY ("+visitPatientPesel+") REFERENCES "+APP_TABLE+"("+appointmentPesel+")," +
+                    visitPatientPesel+ " TEXT,"+visitNotes+ " TEXT," + visitData + " INTEGER," + visitHour+" TEXT,"+visitMinute+
+                    " TEXT, FOREIGN KEY ("+visitPatientPesel+") REFERENCES "+APP_TABLE+"("+appointmentPesel+")," +
                     "FOREIGN KEY ("+visitPatientPesel+") REFERENCES "+PATIENT_TABLE+"("+patientPesel+"))";
 
     static class DatabaseHelper extends SQLiteOpenHelper {
@@ -145,10 +149,13 @@ public class DatabaseManager {
         return mDb.insert(APP_TABLE, null, contentValues);
     }
 
-    public long insertVisitTab(String pesel){
+    public long insertVisitTab(String pesel, long data, int hour, int minute){
         ContentValues contentValues = new ContentValues();
         contentValues.put(visitPatientPesel, pesel);
         contentValues.put(visitNotes, "");
+        contentValues.put(visitData, data);
+        contentValues.put(visitHour, hour);
+        contentValues.put(visitMinute, minute);
 
         return mDb.insert(VISIT_TABLE, null, contentValues);
     }
@@ -173,19 +180,34 @@ public class DatabaseManager {
         return mDb.update(PATIENT_TABLE, contentValues, patientID +"= "+id, null);
     }
 
-    public long updateVisitTable(String pesel, String note){
+    public long updateVisitTable(String pesel, long date, String hour, String minute, String note){
 
         Log.d("Logcat", "update visit table - trial");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(date);
+        int day = calendar.get(java.util.Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        month = month +1;
+        int year = calendar.get(java.util.Calendar.YEAR);
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(visitNotes, note);
 
-        Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "'", null);
-        int e=cursor.getCount();
+        ArrayList<VisitModel> list = new ArrayList<>();
 
-        return mDb.update(VISIT_TABLE, contentValues, visitPatientPesel + "= " + pesel, null);
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + VISIT_TABLE + " WHERE " + visitPatientPesel + " = '" + pesel + "' AND "
+                + visitHour + " = '" + hour + "' AND " + visitMinute + " = '" + minute + "' AND "
+                + "strftime('%d%m%Y', "+ visitData +" / 1000, 'unixepoch') == '"+ String.format("%02d%02d%d", day,month,year)+"'", null);
+
+        while (cursor.moveToNext()){
+            list.add(new VisitModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+        }
+
+        int id = list.get(0).getVisitId();
+
+        return mDb.update(VISIT_TABLE, contentValues, visitID + " = " + id, null);
     }
-
 
     //delete values
     public void deleteData(int id) {
@@ -198,8 +220,6 @@ public class DatabaseManager {
 
         return cursor;
     }
-
-
 
     //select from tables
     //patient table
