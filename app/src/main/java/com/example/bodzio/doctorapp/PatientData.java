@@ -88,7 +88,7 @@ public class PatientData extends AppCompatActivity{
 
             calendar.setTimeInMillis(Long.valueOf(res.getString(4)));
             int d = calendar.get(Calendar.DAY_OF_MONTH);
-            int m = calendar.get(Calendar.MONTH);
+            int m = calendar.get(Calendar.MONTH)+1;
             int y = calendar.get(Calendar.YEAR);
 
             if(d<10 && m<10){

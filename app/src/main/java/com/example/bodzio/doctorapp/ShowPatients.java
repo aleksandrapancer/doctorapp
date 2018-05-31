@@ -33,7 +33,6 @@ public class ShowPatients extends AppCompatActivity {
     }
 
     public void showList(){
-
         ListView listView = findViewById(R.id.listView);
         final ArrayList<Model> customerList = dbHelper.getAllDataPatient();
 

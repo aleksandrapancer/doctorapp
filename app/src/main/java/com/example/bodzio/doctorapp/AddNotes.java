@@ -15,7 +15,7 @@ public class AddNotes extends AppCompatActivity {
     private DatabaseManager dbHelper;
     Calendar calendar = Calendar.getInstance();
     final int d = calendar.get(Calendar.DAY_OF_MONTH);
-    final int m = calendar.get(Calendar.MONTH);
+    final int m = calendar.get(Calendar.MONTH)+1;
     final int y = calendar.get(Calendar.YEAR);
     long visitDate = calendar.getTimeInMillis();
     EditText noteText;

@@ -22,6 +22,7 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:imeOptions="actionDone"
         android:inputType="number"
+        android:maxLength="11"
         android:textColorHint="@color/colorPrimaryDark"
         tools:focusableInTouchMode="true" />
 

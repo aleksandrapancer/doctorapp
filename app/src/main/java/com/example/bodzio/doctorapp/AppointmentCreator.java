@@ -26,12 +26,15 @@ public class AppointmentCreator extends AppCompatActivity {
     ArrayList peselList = new ArrayList();
     String name;
     String surname;
+    String nm;
+    String snm;
+    AutoCompleteTextView peselIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appcreator);
-        final AutoCompleteTextView peselIn = findViewById(R.id.peselText);
+        peselIn = findViewById(R.id.peselText);
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
@@ -40,15 +43,61 @@ public class AppointmentCreator extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, peselList);
         peselIn.setAdapter(adapter);
 
+
+        peselIn.setOnDismissListener(new AutoCompleteTextView.OnDismissListener(){
+            @Override
+            public void onDismiss() {
+                if(peselIn.getText().toString().length() == 11){
+                    if(!peselList.contains(peselIn.getText().toString())){
+                        Toast.makeText(AppointmentCreator.this, "Brak pacjenta o podanym nr PESEL w bazie", Toast.LENGTH_LONG).show();
+                    }else{
+                        Cursor res = dbHelper.getName(peselIn.getText().toString());
+                        if (res.moveToFirst()) {
+                            nm = res.getString(1);
+                            snm = res.getString(2);
+                        }
+
+                        new MaterialDialog.Builder(AppointmentCreator.this)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        name = nm;
+                                        surname = snm;
+                                    }
+                                })
+                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        peselIn.setText("");
+                                    }
+                                })
+                                .title("Dane pacjenta")
+                                .content("Imię: " + nm+ "\nNazwisko: " + snm)
+                                .positiveText("Potwierdź")
+                                .negativeText("Odrzuć")
+                                .show();
+
+                    }
+                }
+            }
+        });
+
         peselIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String clickedPesel = (String)adapterView.getItemAtPosition(i);
+                Cursor res = dbHelper.getName(clickedPesel);
+                if (res.moveToFirst()) {
+                    nm = res.getString(1);
+                    snm = res.getString(2);
+                }
+
                 new MaterialDialog.Builder(AppointmentCreator.this)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(MaterialDialog dialog, DialogAction which) {
-                                name = getPatientName(peselIn.getText().toString());
-                                surname = getPatientSurname(peselIn.getText().toString());
+                                name = nm;
+                                surname = snm;
                             }
                         })
                         .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -58,7 +107,7 @@ public class AppointmentCreator extends AppCompatActivity {
                             }
                         })
                         .title("Dane pacjenta")
-                        .content("Imię: "+getPatientName(peselIn.getText().toString())+"\nNazwisko: "+ getPatientSurname(peselIn.getText().toString()))
+                        .content("Imię: " + nm+ "\nNazwisko: " + snm)
                         .positiveText("Potwierdź")
                         .negativeText("Odrzuć")
                         .show();
@@ -76,6 +125,8 @@ public class AppointmentCreator extends AppCompatActivity {
         newFragment.show(getFragmentManager(), "Time Picker");
     }
 
+
+
     public void saveData(View v) {
         TimePickerFragment tpf = new TimePickerFragment();
         int hour = tpf.getHour();
@@ -89,10 +140,6 @@ public class AppointmentCreator extends AppCompatActivity {
         Date d = c.getTime();
         //Toast.makeText(this, "" + d, Toast.LENGTH_LONG).show();
 
-        AutoCompleteTextView peselIn = findViewById(R.id.peselText);
-
-        //String name = getPatientName(peselIn.getText().toString());
-        //String surname = getPatientSurname(peselIn.getText().toString());
         String pesel = peselIn.getText().toString();
         CheckBox alert = findViewById(R.id.alertCheckbox);
         boolean alertSet = alert.isChecked();
@@ -101,11 +148,13 @@ public class AppointmentCreator extends AppCompatActivity {
         if (alertSet == true) {
             a = 1;
         } else a = 0;
-        if(!peselList.contains(peselIn.getText().toString())){
-            Toast.makeText(this, "Brak pacjenta o podanym nr PESEL w bazie", Toast.LENGTH_LONG).show();
-        } else if (pesel.length() != 11) {
+
+        if (pesel.length() != 11) {
             Toast.makeText(this, getResources().getString(R.string.wrongPesel), Toast.LENGTH_LONG).show();
-        } else if (hour == 0 || minute == 0) {
+        } else if(!peselList.contains(peselIn.getText().toString())){
+            Toast.makeText(this, "Brak pacjenta o podanym nr PESEL w bazie", Toast.LENGTH_LONG).show();
+        }
+         else if (hour == 0 || minute == 0) {
             Toast.makeText(this, getResources().getString(R.string.notimeselected), Toast.LENGTH_LONG).show();
         } else {
             long i = dbHelper.insertAppointmentTab(name, surname, pesel, date, hour, minute, a);
@@ -116,43 +165,23 @@ public class AppointmentCreator extends AppCompatActivity {
             }
             long j = dbHelper.insertVisitTab(pesel, date, hour, minute);
             if (j!=-1){
-                Toast.makeText(this, "dodano tablice wizyt", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "dodano tablice wizyt", Toast.LENGTH_LONG).show();
             }else {
-                Toast.makeText(this, "nie dodano tablicy vizyt", Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "nie dodano tablicy wizyt", Toast.LENGTH_LONG).show();
             }
 
             peselIn.setText("");
         }
     }
 
-    public String getPatientSurname(String p) {
-        String surname = new String();
-
-        final Cursor cursor = dbHelper.getSurname(p);
-        while (cursor.moveToNext()) {
-            surname = cursor.getString(0);
-        }
-        return surname;
-    }
-
-    public String getPatientName(String p) {
-        String name = new String();
-
-        final Cursor cursor = dbHelper.getName(p);
-        while (cursor.moveToNext()) {
-            name = cursor.getString(0);
-        }
-        return name;
-    }
 
     public ArrayList getPeselArray() {
-        ArrayList surnames = new ArrayList<>();
+        ArrayList pesel = new ArrayList<>();
         final Cursor cursor = dbHelper.getPesel();
         while (cursor.moveToNext()) {
-            String surname = cursor.getString(0);
-            surnames.add(surname);
+            String p = cursor.getString(0);
+            pesel.add(p);
         }
-
-        return surnames;
+        return pesel;
     }
 }

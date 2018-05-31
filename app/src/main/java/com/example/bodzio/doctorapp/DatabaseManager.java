@@ -217,9 +217,16 @@ public class DatabaseManager {
 
     public Cursor displayName(int id){
         Cursor cursor = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientID + " = '" + id + "'", null);
-
         return cursor;
     }
+
+
+    public Cursor getName(String pesel){
+        Cursor cursor = mDb.rawQuery("SELECT * FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = '" + pesel + "'", null);
+        return cursor;
+    }
+
+
 
 
     //select from tables
@@ -376,15 +383,6 @@ public class DatabaseManager {
         return res;
     }
 
-    public Cursor getSurname(String p) {
-        Cursor res = mDb.rawQuery("SELECT "+patientSurname+" FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = ' " + p +" ' " , null);
-        return res;
-    }
-
-    public Cursor getName(String p) {
-        Cursor res = mDb.rawQuery("SELECT "+patientName+" FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = ' " + p +" ' " , null);
-        return res;
-    }
 
     //visit table
     public Cursor getNotesByPeselVisit(String pesel){
