@@ -221,6 +221,7 @@ public class DatabaseManager {
         return cursor;
     }
 
+
     //select from tables
     //patient table
     public ArrayList<Model> getAllDataPatient(){
@@ -364,14 +365,18 @@ public class DatabaseManager {
             }
         }
         else{
-            notification = "Witaj dzisiaj nie masz powiadomień o wizytach.";
+            notification = "Witaj. Dzisiaj nie masz powiadomień o wizytach.";
         }
         return notification;
     }
 
-    //method for searching appointments by date selected in calendar
-    public Cursor getAppointmentByDate(long selectedDate) {
-        Cursor res = mDb.rawQuery("SELECT * FROM " + APP_TABLE + " WHERE " + appointmentDate + " = '" + selectedDate + "'", null);
+    public Cursor getNames() {
+        Cursor res = mDb.rawQuery("SELECT "+patientName+" FROM " + PATIENT_TABLE + "", null);
+        return res;
+    }
+
+    public Cursor getSurnames() {
+        Cursor res = mDb.rawQuery("SELECT "+patientSurname+" FROM " + PATIENT_TABLE + "", null);
         return res;
     }
 

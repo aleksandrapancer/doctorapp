@@ -21,31 +21,30 @@
         android:layout_height="wrap_content"
         android:text="Imię" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/nameText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:textColorHint="@color/colorPrimaryDark"
-        tools:focusableInTouchMode="true" />
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        tools:focusableInTouchMode="true"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nazwisko" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/surnameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:allowUndo="false"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:textColorHint="@color/colorPrimaryDark"
-        tools:focusableInTouchMode="true" />
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        tools:focusableInTouchMode="true"/>
 
     <TextView
         android:layout_width="match_parent"

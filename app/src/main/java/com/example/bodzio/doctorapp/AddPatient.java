@@ -72,8 +72,8 @@ public class AddPatient extends AppCompatActivity {
 
                 //insert values to database
                 long i = dbHelper.insertPatientTab(name.getText().toString(),
-                        surname.getText().toString().toLowerCase(),
-                        pesel.getText().toString().toLowerCase(),
+                        surname.getText().toString(),
+                        pesel.getText().toString(),
                         daySpiner.getSelectedItem().toString(),
                         monthSpiner.getSelectedItem().toString(),
                         yearSpiner.getSelectedItem().toString(),

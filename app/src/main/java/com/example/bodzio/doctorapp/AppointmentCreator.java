@@ -1,14 +1,18 @@
 package com.example.bodzio.doctorapp;
 
 import android.app.DialogFragment;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,22 +28,33 @@ public class AppointmentCreator extends AppCompatActivity {
 
         dbHelper = new DatabaseManager(this);
         dbHelper.open();
+
+        AutoCompleteTextView nameIn = findViewById(R.id.nameText);
+        AutoCompleteTextView surnameIn = findViewById(R.id.surnameText);
+
+        final Object[] names = getPatientNames().toArray();
+        final Object[] surnames = getPatientSurnames().toArray();
+
+        ArrayAdapter<Object> adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, names);
+        nameIn.setAdapter(adapter);
+        ArrayAdapter<Object> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, surnames);
+        surnameIn.setAdapter(adapter1);
     }
 
-    public void pickDate(View v){
+    public void pickDate(View v) {
         DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(),"Date Picker");
+        newFragment.show(getFragmentManager(), "Date Picker");
     }
 
-    public void pickTime(View v){
+    public void pickTime(View v) {
         DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(),"Time Picker");
+        newFragment.show(getFragmentManager(), "Time Picker");
     }
 
-    public void saveData(View v){
+    public void saveData(View v) {
         TimePickerFragment tpf = new TimePickerFragment();
         int hour = tpf.getHour();
-        int minute =  tpf.getMinute();
+        int minute = tpf.getMinute();
 
         DatePickerFragment dpf = new DatePickerFragment();
         long date = dpf.getDate();
@@ -49,33 +64,33 @@ public class AppointmentCreator extends AppCompatActivity {
         Date d = c.getTime();
         //Toast.makeText(this, "" + d, Toast.LENGTH_LONG).show();
 
-        EditText nameIn = findViewById(R.id.nameText);
-        EditText surnameIn = findViewById(R.id.surnameText);
+        AutoCompleteTextView nameIn = findViewById(R.id.nameText);
+        AutoCompleteTextView surnameIn = findViewById(R.id.surnameText);
         EditText peselIn = findViewById(R.id.peselText);
         String name = nameIn.getText().toString();
         String surname = surnameIn.getText().toString();
         String pesel = peselIn.getText().toString();
-        CheckBox alert =  findViewById(R.id.alertCheckbox);
+        CheckBox alert = findViewById(R.id.alertCheckbox);
         boolean alertSet = alert.isChecked();
         int a;
 
-        if(alertSet==true){
-             a = 1;
-        }else a = 0;
+        if (alertSet == true) {
+            a = 1;
+        } else a = 0;
 
-        if (name == null || surname == null || pesel==null) {
+        if (name == null || surname == null || pesel == null) {
             Toast.makeText(this, getResources().getString(R.string.emptyfields), Toast.LENGTH_LONG).show();
-        }else if (name.equals("") || surname.equals("") || pesel.equals("")) {
+        } else if (name.equals("") || surname.equals("") || pesel.equals("")) {
             Toast.makeText(this, getResources().getString(R.string.emptyfields), Toast.LENGTH_LONG).show();
-        }else if(pesel.length()<11){
+        } else if (pesel.length() < 11) {
             Toast.makeText(this, getResources().getString(R.string.wrongPesel), Toast.LENGTH_LONG).show();
-        }else if(hour == 0 || minute == 0){
+        } else if (hour == 0 || minute == 0) {
             Toast.makeText(this, getResources().getString(R.string.notimeselected), Toast.LENGTH_LONG).show();
-        }else{
-            long i = dbHelper.insertAppointmentTab(name,surname,pesel,date,hour,minute,a);
-            if (i!=-1){
+        } else {
+            long i = dbHelper.insertAppointmentTab(name, surname, pesel, date, hour, minute, a);
+            if (i != -1) {
                 Toast.makeText(this, getResources().getString(R.string.addedtodatabase), Toast.LENGTH_LONG).show();
-            }else {
+            } else {
                 Toast.makeText(this, getResources().getString(R.string.failed), Toast.LENGTH_LONG).show();
             }
             long j = dbHelper.insertVisitTab(pesel, date, hour, minute);
@@ -90,7 +105,27 @@ public class AppointmentCreator extends AppCompatActivity {
             peselIn.setText("");
         }
     }
+
+    public ArrayList<String> getPatientNames() {
+        ArrayList<String> names = new ArrayList<>();
+        final Cursor cursor = dbHelper.getNames();
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(0);
+            names.add(name);
+        }
+
+        return names;
+    }
+
+    public ArrayList<String> getPatientSurnames() {
+        ArrayList<String> surnames = new ArrayList<>();
+        final Cursor cursor = dbHelper.getSurnames();
+        while (cursor.moveToNext()) {
+            String surname = cursor.getString(0);
+            surnames.add(surname);
+        }
+
+        return surnames;
+    }
+
 }
-
-
-
