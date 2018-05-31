@@ -28,6 +28,7 @@ public class AppointmentCreator extends AppCompatActivity {
     String surname;
     String nm;
     String snm;
+    boolean clicked = false;
     AutoCompleteTextView peselIn;
 
     @Override
@@ -47,7 +48,8 @@ public class AppointmentCreator extends AppCompatActivity {
         peselIn.setOnDismissListener(new AutoCompleteTextView.OnDismissListener(){
             @Override
             public void onDismiss() {
-                if(peselIn.getText().toString().length() == 11){
+                if(!clicked){
+                    if(peselIn.getText().toString().length() == 11){
                     if(!peselList.contains(peselIn.getText().toString())){
                         Toast.makeText(AppointmentCreator.this, "Brak pacjenta o podanym nr PESEL w bazie", Toast.LENGTH_LONG).show();
                     }else{
@@ -78,6 +80,7 @@ public class AppointmentCreator extends AppCompatActivity {
                                 .show();
 
                     }
+                    }
                 }
             }
         });
@@ -85,6 +88,9 @@ public class AppointmentCreator extends AppCompatActivity {
         peselIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                clicked = true;
+
+
                 String clickedPesel = (String)adapterView.getItemAtPosition(i);
                 Cursor res = dbHelper.getName(clickedPesel);
                 if (res.moveToFirst()) {
