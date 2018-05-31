@@ -15,7 +15,7 @@ import static android.text.TextUtils.substring;
 public class ShowVisits  extends AppCompatActivity {
 
     private DatabaseManager dbHelper;
-    static String patientPesel;
+    static String patientPesel, visitHour, visitMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class ShowVisits  extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String peselFromList = visitList.get(position).getPesel();
                 patientPesel = peselFromList;
+                visitHour = visitList.get(position).getHour();
+                visitMinute = visitList.get(position).getMinute();
                 Intent intent = new Intent(ShowVisits.this, AddNotes.class);
                 startActivity(intent);
             }

@@ -17,8 +17,9 @@ public class AddNotes extends AppCompatActivity {
     final int d = calendar.get(Calendar.DAY_OF_MONTH);
     final int m = calendar.get(Calendar.MONTH);
     final int y = calendar.get(Calendar.YEAR);
+    long visitDate = calendar.getTimeInMillis();
     EditText noteText;
-    String patientPesel;
+    String patientPesel, visitHour, visitMinute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,13 @@ public class AddNotes extends AppCompatActivity {
         }else
             date = String.valueOf(d)+"."+String.valueOf(m)+"."+String.valueOf(y)+"\n";
 
-        String note = date+noteText.getText().toString();
+        String note = date + noteText.getText().toString();
         patientPesel = ShowVisits.patientPesel;
+        visitHour = ShowVisits.visitHour;
+        visitMinute = ShowVisits.visitMinute;
 
-        long result = dbHelper.updateVisitTable(patientPesel, note);
+        long result =0;
+        dbHelper.updateVisitTable(patientPesel, visitDate, visitHour, visitMinute, note);
         if(result!=-1)
             Toast.makeText(AddNotes.this, "Notatka została dodana!", Toast.LENGTH_LONG).show();
         else

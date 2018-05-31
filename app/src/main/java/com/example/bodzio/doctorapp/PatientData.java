@@ -66,12 +66,13 @@ public class PatientData extends AppCompatActivity{
         if(res.getCount()==0){
             showMessage("Nie ma w bazie notatek", "Notatki");
             return;
+        }else {
+            StringBuffer buffer = new StringBuffer();
+            while (res.moveToNext()) {
+                buffer.append(res.getString(2) + "\n\n");
+            }
+            showMessage(buffer.toString(), "Notatki");
         }
-        StringBuffer buffer = new StringBuffer();
-        while (res.moveToNext()){
-            buffer.append(res.getString(2)+"\n\n");
-        }
-        showMessage(buffer.toString(), "Notatki");
     }
 
     public void showVisits(View v) {

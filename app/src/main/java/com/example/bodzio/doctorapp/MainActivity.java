@@ -51,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addPatient(View view) {
-        Intent intent = new Intent(this,  AddPatient.class);
-        startActivity(intent);
-    }
-
     public void showPatients(View view) {
         Intent intent = new Intent(this,  ShowPatients.class);
         startActivity(intent);

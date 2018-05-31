@@ -84,5 +84,4 @@ public class ShowPatients extends AppCompatActivity {
         Intent intent = new Intent(ShowPatients.this,  AddPatient.class);
         startActivity(intent);
     }
-
 }
