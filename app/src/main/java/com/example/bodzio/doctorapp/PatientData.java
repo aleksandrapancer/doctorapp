@@ -10,13 +10,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class PatientData extends AppCompatActivity{
 
     private DatabaseManager dbHelper;
-    final int id =ShowPatients.idOfPatient;
+    final int id = ShowPatients.idOfPatient;
     ArrayList<Model> patientList = new ArrayList<>();
 
     @Override
@@ -40,10 +43,22 @@ public class PatientData extends AppCompatActivity{
 
 
     public void deletePatient(View v) {
-        dbHelper.deleteData(id);
-        Toast.makeText(PatientData.this, "Dane zostały usunięte!", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(PatientData.this, MainActivity.class);
-        startActivity(intent);
+        new MaterialDialog.Builder(PatientData.this)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        dbHelper.deleteData(id);
+                        Toast.makeText(PatientData.this, "Dane zostały usunięte!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(PatientData.this, ShowPatients.class);
+                        startActivity(intent);
+                    }
+                })
+                .title("Usuwanie karty pacjenta")
+                .content("Czy chcesz usunąć kartę pacjenta?")
+                .positiveText("Usuń")
+                .negativeText("Anuluj")
+                .show();
+
     }
 
     public void showNotes(View v) {

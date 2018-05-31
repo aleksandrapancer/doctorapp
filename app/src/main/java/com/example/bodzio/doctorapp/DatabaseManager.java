@@ -348,16 +348,21 @@ public class DatabaseManager {
         return notification;
     }
 
-    public Cursor getNames() {
-        Cursor res = mDb.rawQuery("SELECT "+patientName+" FROM " + PATIENT_TABLE + "", null);
+
+    public Cursor getPesel() {
+        Cursor res = mDb.rawQuery("SELECT "+patientPesel+" FROM " + PATIENT_TABLE + "", null);
         return res;
     }
 
-    public Cursor getSurnames() {
-        Cursor res = mDb.rawQuery("SELECT "+patientSurname+" FROM " + PATIENT_TABLE + "", null);
+    public Cursor getSurname(String p) {
+        Cursor res = mDb.rawQuery("SELECT "+patientSurname+" FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = ' " + p +" ' " , null);
         return res;
     }
 
+    public Cursor getName(String p) {
+        Cursor res = mDb.rawQuery("SELECT "+patientName+" FROM " + PATIENT_TABLE + " WHERE " + patientPesel + " = ' " + p +" ' " , null);
+        return res;
+    }
 
     //visit table
     public Cursor getNotesByPeselVisit(String pesel){

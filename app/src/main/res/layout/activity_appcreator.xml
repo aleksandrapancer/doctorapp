@@ -13,54 +13,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dane pacjenta" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Imię" />
-
-    <AutoCompleteTextView
-        android:id="@+id/nameText"
-        android:layout_width="match_parent"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:layout_height="wrap_content"
-        android:inputType="text"
-        android:imeOptions="actionDone"
-        tools:focusableInTouchMode="true"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nazwisko" />
-
-    <AutoCompleteTextView
-        android:id="@+id/surnameText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColorHint="@color/colorPrimaryDark"
-        android:inputType="text"
-        android:imeOptions="actionDone"
-        tools:focusableInTouchMode="true"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="Pesel" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/peselText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:focusableInTouchMode="true"
-        android:inputType="number"
-        android:ems="10"
         android:backgroundTint="@color/colorPrimaryDark"
+        android:imeOptions="actionDone"
+        android:inputType="number"
         android:textColorHint="@color/colorPrimaryDark"
-        android:maxLength="11" />
+        tools:focusableInTouchMode="true" />
 
     <Space
         android:layout_width="match_parent"

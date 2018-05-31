@@ -56,8 +56,8 @@ public class ShowPatients extends AppCompatActivity {
 
         surname = findViewById(R.id.surnameFiltrField);
         pesel = findViewById(R.id.peselFiltrField);
-        String surnameText = surname.getText().toString();
-        String peselText = pesel.getText().toString();
+        String surnameText = surname.getText().toString().trim();
+        String peselText = pesel.getText().toString().trim();
 
         if(!surnameText.equals("") && peselText.equals(""))
             customerListFilter = dbHelper.getDataBySurnamePatient(surnameText);
