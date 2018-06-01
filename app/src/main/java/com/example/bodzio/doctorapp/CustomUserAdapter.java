@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomUserAdapter extends ArrayAdapter<Model>{
 
     public CustomUserAdapter(Context context, ArrayList<Model> users) {
         super(context, 0, users);
+
     }
 
     @Override
@@ -26,5 +28,11 @@ public class CustomUserAdapter extends ArrayAdapter<Model>{
         TextView name = (TextView) convertView.findViewById(R.id.textName);
         name.setText(user.getName() + " " + user.getSurname());
         return convertView;
+    }
+
+    public void refresh(ArrayList<Model> arr) {
+        arr.clear();
+        arr.addAll(arr);
+        notifyDataSetChanged();
     }
 }

@@ -84,8 +84,12 @@ public class AddPatient extends AppCompatActivity {
 
                 if (i != -1) {
                     Toast.makeText(this, "Zapisano pacjenta", Toast.LENGTH_LONG).show();
-                    finish();
-                    startActivity(getIntent());
+                    final ArrayList<Model> userList = dbHelper.getAllDataPatient();
+                    CustomUserAdapter adapter = new CustomUserAdapter(this, userList);
+                    adapter.refresh(userList);
+
+                    Intent intent = new Intent(AddPatient.this,  ShowPatients.class);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(this, "Błąd zapisu", Toast.LENGTH_LONG).show();
                 }
