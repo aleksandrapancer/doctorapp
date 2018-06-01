@@ -49,6 +49,7 @@ public class PatientData extends AppCompatActivity{
                     public void onClick(MaterialDialog dialog, DialogAction which) {
                         dbHelper.deleteData(id);
                         Toast.makeText(PatientData.this, "Dane zostały usunięte!", Toast.LENGTH_LONG).show();
+                        
                         Intent intent = new Intent(PatientData.this, ShowPatients.class);
                         startActivity(intent);
                     }
@@ -58,7 +59,6 @@ public class PatientData extends AppCompatActivity{
                 .positiveText("Usuń")
                 .negativeText("Anuluj")
                 .show();
-
     }
 
     public void showNotes(View v) {

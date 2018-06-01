@@ -101,8 +101,15 @@ public class EditPatient extends AppCompatActivity {
                     address.getText().toString(),
                     email.getText().toString().toLowerCase(),
                     phone.getText().toString().toLowerCase());
-            if (result != -1)
+            if (result != -1){
                 Toast.makeText(EditPatient.this, "Dane zostały zmienione!", Toast.LENGTH_LONG).show();
+                final ArrayList<Model> userList = dbHelper.getAllDataPatient();
+                CustomUserAdapter adapter = new CustomUserAdapter(this, userList);
+                adapter.refresh(userList);
+
+                Intent intent = new Intent(EditPatient.this,  ShowPatients.class);
+                startActivity(intent);
+            }
             else
                 Toast.makeText(EditPatient.this, "Dane nie zostały zmienione!", Toast.LENGTH_LONG).show();
             EditPatient.super.onBackPressed();
